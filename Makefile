@@ -26,11 +26,13 @@ OBJ = $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Utils_test.o \
+					$(OBJ_DIR)/Base/Singleton_test.o \
 					$(OBJ_DIR)/IO/TextPrinter_test.o \
           $(OBJ_DIR)/Utility/Strings_test.o \
           $(OBJ_DIR)/Utility/StringBuilder_test.o \
 
 TESTEXE = test/Utils_test.out \
+					test/Singleton_test.out \
 					test/TextPrinter_test.out \
           test/Strings_test.out \
           test/StringBuilder_test.out \
