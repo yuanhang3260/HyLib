@@ -11,9 +11,9 @@
 #include <functional>
 #include <stdexcept>
 
-#include "CallBack.h"
-
 namespace Executors {
+
+using Closure = std::function<void()>;
 
 class FixedThreadPool {
  public:
@@ -31,7 +31,8 @@ class FixedThreadPool {
   void SetPoolSize(size_t);
   size_t Size() const;
 
-  void AddTask(Base::Closure* task);
+  void AddTask(Closure* task);
+  void AddTask(Closure task);
 
   ~FixedThreadPool();
   
@@ -47,7 +48,7 @@ class FixedThreadPool {
   std::vector<std::thread> workers;
 
   // the task queue
-  std::queue<std::unique_ptr<Base::Closure>> tasks;
+  std::queue<std::unique_ptr<Closure>> tasks;
   
   // synchronization
   std::mutex worker_mutex;

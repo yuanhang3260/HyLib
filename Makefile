@@ -13,26 +13,30 @@ OBJ_DIR=lib
 
 OBJ = $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/Base/Log.o \
+      $(OBJ_DIR)/Base/StringPiece.o \
       $(OBJ_DIR)/IO/FileDescriptorInterface.o \
       $(OBJ_DIR)/IO/FileDescriptor.o \
-      $(OBJ_DIR)/IO/FileUtils.o \
+      $(OBJ_DIR)/IO/FileSystemUtils.o \
       $(OBJ_DIR)/IO/TextPrinter.o \
       $(OBJ_DIR)/Network/Socket.o \
       $(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
       $(OBJ_DIR)/Utility/EventManager.o \
+      $(OBJ_DIR)/Utility/FileMonitor.o \
       $(OBJ_DIR)/Utility/StringBuilder.o \
       $(OBJ_DIR)/Utility/Strings.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Utils_test.o \
 					$(OBJ_DIR)/Base/Singleton_test.o \
+					$(OBJ_DIR)/IO/FileSystemUtils_test.o \
 					$(OBJ_DIR)/IO/TextPrinter_test.o \
           $(OBJ_DIR)/Utility/Strings_test.o \
           $(OBJ_DIR)/Utility/StringBuilder_test.o \
 
 TESTEXE = test/Utils_test.out \
 					test/Singleton_test.out \
+					test/FileSystemUtils_test.out \
 					test/TextPrinter_test.out \
           test/Strings_test.out \
           test/StringBuilder_test.out \

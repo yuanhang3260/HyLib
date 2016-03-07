@@ -47,7 +47,7 @@ void FixedThreadPool::Start() {
 
 // Thread worker
 void FixedThreadPool::ThreadWorker() {
-  Base::Closure* task;
+  Closure* task;
   while (1) {
     {
       std::unique_lock<std::mutex> lock(queue_mutex);
@@ -59,12 +59,12 @@ void FixedThreadPool::ThreadWorker() {
       task = (tasks.front()).release();
       tasks.pop();
     }
-    task->Run();
+    (*task)();
   }
 }
 
 // Add new work item to the pool
-void FixedThreadPool::AddTask(Base::Closure* task) {
+void FixedThreadPool::AddTask(Closure* task) {
   {
     std::unique_lock<std::mutex> lock(worker_mutex);
     if (state_ == RUNNING && workers.size() < thread_size_) {
@@ -77,9 +77,13 @@ void FixedThreadPool::AddTask(Base::Closure* task) {
     if (state_ == STOP) {
       throw std::runtime_error("enqueue on stopped ThreadPool");
     }
-    tasks.emplace(std::unique_ptr<Base::Closure>(task));
+    tasks.emplace(std::unique_ptr<Closure>(task));
   }
   condition.notify_one();
+}
+
+void FixedThreadPool::AddTask(Closure task) {
+  AddTask(new Closure(task));
 }
 
 // Blocks and wait for all previously submitted tasks to be completed.
