@@ -14,6 +14,7 @@ OBJ_DIR=lib
 OBJ = $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Base/StringPiece.o \
+      $(OBJ_DIR)/IO/File.o \
       $(OBJ_DIR)/IO/FileDescriptorInterface.o \
       $(OBJ_DIR)/IO/FileDescriptor.o \
       $(OBJ_DIR)/IO/FileSystemUtils.o \

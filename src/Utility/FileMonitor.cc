@@ -25,6 +25,11 @@ bool FileMonitor::AddFileToMonitor(const std::string& file_path,
     return false;
   }
 
+  if (!FileSystem::FileExists(abstract_path)) {
+    LogERROR("File %s doesn't exist, can't add to monitor", file_path.c_str());
+    return false;
+  }
+
   // Add to file pool which is being monitored.
   {
     std::unique_lock<std::mutex> lock(files_to_watch_mutex_);

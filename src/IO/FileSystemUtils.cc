@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <limits.h>
 
 #include "Utility/Strings.h"
@@ -25,6 +26,25 @@ std::string JoinPathImpl(
     result += ("/" + str);
   }
   return result;
+}
+
+bool FileExists(StringPiece file_path) {
+  return (access(file_path.data(), F_OK) != -1);
+}
+
+bool DirectoryExists(StringPiece path) {
+  DIR *pDir;
+  bool bExists = false;
+  pDir = opendir(path.data());
+  if (pDir != NULL) {
+    bExists = true;    
+    (void)closedir(pDir);
+  }
+  return bExists;
+}
+
+bool CreateDir(StringPiece path, mode_t mode) {
+  return mkdir(path.data(), mode);
 }
 
 }  // namespace FileSystem
