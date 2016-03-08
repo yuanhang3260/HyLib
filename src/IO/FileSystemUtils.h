@@ -13,7 +13,8 @@ namespace FileSystem {
 // Get abstract path of a file. The file must exist, otherwise it returns "".
 std::string GetAbstractPath(StringPiece filename);
 
-// Join path piece into an abstract path.
+// If the first path arg starts with '/' the result will also be an abstract
+// path. Otherwise it returns a relative path.
 std::string JoinPathImpl(std::initializer_list<StringPiece> arg_list);
 
 template <typename... T>

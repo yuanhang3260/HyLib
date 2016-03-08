@@ -9,7 +9,7 @@
 #include "UnitTest/UnitTest.h"
 #include "FileMonitor.h"
 
-std::string kDataDir = FileSystem::GetAbstractPath("data/");
+std::string kDataDir = "data/";
 std::string kFileContentOriginal = "Hello World";
 std::string kFileContentModified = "Good Bye";
 
@@ -34,12 +34,12 @@ class FileMonitorTest: public UnitTest {
     Utility::FileMonitor monitor;
     monitor.StartMonitoring();
 
-    File::SetContent(kDataDir + "/fileA", kFileContentOriginal);
+    File::SetContent(kDataDir + "fileA", kFileContentOriginal);
     monitor.AddFileToMonitor(FileSystem::JoinPath(kDataDir, "fileA"),
                              OnFileChange);
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    File::SetContent(kDataDir + "/fileA", kFileContentModified);
+    File::SetContent(kDataDir + "fileA", kFileContentModified);
 
     // Wait for all tasks to finish.
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -49,6 +49,7 @@ class FileMonitorTest: public UnitTest {
 
 int main() {
   FileMonitorTest test;
+  test.setup();
   test.Test_MonitorFile();
 
   std::cout << "\033[2;32mPassed ^_^\033[0m" << std::endl;
