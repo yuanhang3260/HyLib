@@ -8,7 +8,7 @@
 
 namespace FileSystem {
 
-std::string GetAbstractPath(std::string filename);
+std::string GetAbstractPath(StringPiece filename);
 
 
 std::string JoinPathImpl(std::initializer_list<StringPiece> arg_list);

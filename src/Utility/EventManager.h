@@ -6,7 +6,6 @@
 #include <mutex>
 #include <thread>
 
-#include "CallBack.h"
 #include "ThreadPool.h"
 
 namespace Executors {
@@ -67,11 +66,11 @@ class EventManager {
   void SetThreadPoolSize(size_t size);
   size_t Size();
 
-  void AddTask(Base::Closure* task);
-  int AddTaskWaitingReadable(int fd, Base::Closure* task);
-  int AddTaskWaitingWritable(int fd, Base::Closure* task);
+  void AddTask(Closure* task);
+  int AddTaskWaitingReadable(int fd, Closure* task);
+  int AddTaskWaitingWritable(int fd, Closure* task);
   int RemoveAwaitingTask(int fd);
-  int ModifyTaskWaitingStatus(int fd, int status, Base::Closure* task);
+  int ModifyTaskWaitingStatus(int fd, int status, Closure* task);
 
   void Start();
   void AwaitTermination();
@@ -82,7 +81,7 @@ class EventManager {
  private:
   FixedThreadPool thread_pool_;
   Epoll epoll_;
-  std::map<int, Base::Closure*> inactive_tasks_map_;
+  std::map<int, Closure*> inactive_tasks_map_;
   std::mutex mutex_;
 };
 

@@ -31,6 +31,7 @@ TESTOBJ = $(OBJ_DIR)/Base/Utils_test.o \
 					$(OBJ_DIR)/Base/Singleton_test.o \
 					$(OBJ_DIR)/IO/FileSystemUtils_test.o \
 					$(OBJ_DIR)/IO/TextPrinter_test.o \
+					$(OBJ_DIR)/Utility/FileMonitor_test.o \
           $(OBJ_DIR)/Utility/Strings_test.o \
           $(OBJ_DIR)/Utility/StringBuilder_test.o \
 
@@ -38,6 +39,7 @@ TESTEXE = test/Utils_test.out \
 					test/Singleton_test.out \
 					test/FileSystemUtils_test.out \
 					test/TextPrinter_test.out \
+					test/FileMonitor_test.out \
           test/Strings_test.out \
           test/StringBuilder_test.out \
 
@@ -78,16 +80,16 @@ $(OBJ_DIR)/IO/%.o: $(SRC_DIR)/IO/%.cc
 
 # Tests
 test/%.out: $(OBJ_DIR)/Utility/%.o library
-	$(CC) $(CFLAGS) $< libhy.a -o $@
+	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
 test/%.out: $(OBJ_DIR)/Base/%.o library
-	$(CC) $(CFLAGS) $< libhy.a -o $@
+	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
 test/%.out: $(OBJ_DIR)/Network/%.o library
-	$(CC) $(CFLAGS) $< libhy.a -o $@
+	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
 test/%.out: $(OBJ_DIR)/IO/%.o library
-	$(CC) $(CFLAGS) $< libhy.a -o $@
+	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
 clean:
 	rm -rf libhy.a
@@ -100,3 +102,4 @@ clean:
 	rm -rf $(OBJ_DIR)/UnitTest/*.o
 	rm -rf $(OBJ_DIR)/Utility/*.o
 	rm -rf test/*.out
+	rm -rf data/*

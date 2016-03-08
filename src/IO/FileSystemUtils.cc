@@ -8,12 +8,12 @@
 
 namespace FileSystem {
 
-std::string GetAbstractPath(std::string filename) {
-  if (access(filename.c_str(), F_OK) < 0) {
+std::string GetAbstractPath(StringPiece filename) {
+  if (access(filename.data(), F_OK) < 0) {
     return "";
   }
   char fullpath[PATH_MAX];
-  char* ptr = realpath(filename.c_str(), fullpath);
+  char* ptr = realpath(filename.data(), fullpath);
   return std::string(ptr);
 }
 

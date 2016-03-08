@@ -39,7 +39,7 @@ void EventManager::Start() {
     std::bind(&EventManager::EpollAwakeHandler, this, std::placeholders::_1)));
 
   // First add epolling thread to work.
-  thread_pool_.AddTask(Base::NewCallBack(&Epoll::StartPolling, &epoll_));
+  thread_pool_.AddTask(std::bind(&Epoll::StartPolling, &epoll_));
 
   // Start the internal thread poll.
   thread_pool_.Start();
@@ -56,11 +56,11 @@ void EventManager::EpollAwakeHandler(const Epoll::ActiveEvents* active_events) {
   }
 }
 
-void EventManager::AddTask(Base::Closure* task) {
+void EventManager::AddTask(Closure* task) {
   thread_pool_.AddTask(task);
 }
 
-int EventManager::AddTaskWaitingReadable(int fd, Base::Closure* task) {
+int EventManager::AddTaskWaitingReadable(int fd, Closure* task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.AddMonitorReadableEvent(fd);
   if (ret) {
@@ -73,7 +73,7 @@ int EventManager::AddTaskWaitingReadable(int fd, Base::Closure* task) {
   return 0;
 }
 
-int EventManager::AddTaskWaitingWritable(int fd, Base::Closure* task) {
+int EventManager::AddTaskWaitingWritable(int fd, Closure* task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.AddMonitorWritableEvent(fd);
   if (ret) {
@@ -100,7 +100,7 @@ int EventManager::RemoveAwaitingTask(int fd) {
 }
 
 int EventManager::ModifyTaskWaitingStatus(
-    int fd, int status, Base::Closure* task) {
+    int fd, int status, Closure* task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.ModifyMonitorEvent(fd, status);
   if (ret) {
