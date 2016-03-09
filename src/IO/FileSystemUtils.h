@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string>
+#include <vector>
+#include <map>
 #include <initializer_list>
 
 #include "Base/StringPiece.h"
@@ -25,7 +27,10 @@ std::string JoinPath(const T&... args) {
 bool FileExists(StringPiece file_path);
 bool DirectoryExists(StringPiece dir_path);
 bool CreateDir(StringPiece path, mode_t mode);
+int  ListDir(StringPiece path, std::vector<std::string>* result);
 
+bool CreateFile(StringPiece file_path);
+bool RemoveFile(StringPiece file_path);
 
 
 }  // namespace FileSystem

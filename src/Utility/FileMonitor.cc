@@ -45,7 +45,7 @@ bool FileMonitor::AddFileToMonitor(const std::string& file_path,
 
   {
     std::unique_lock<std::mutex> lock(status_mutex_);
-    new_added_ = true;
+    monitor_set_changed = true;
   }
   return true;
 }
@@ -61,7 +61,7 @@ void FileMonitor::RemoveFileMonitored(const std::string& file_path) {
     std::unique_lock<std::mutex> lock(files_to_watch_mutex_);
     auto it = files_to_watch_.find(abstract_path);
     if (it == files_to_watch_.end()) {
-      LogERROR("file %s already being monitored", abstract_path.c_str());
+      LogINFO("file %s is not being monitored", abstract_path.c_str());
       return;
     }
     files_to_watch_.erase(it);
@@ -94,17 +94,18 @@ void FileMonitor::ScanMonitoredFiles() {
 
   {
     std::unique_lock<std::mutex> lock(status_mutex_);
-    new_added_ = false;
+    monitor_set_changed = false;
   }
 }
 
 void FileMonitor::MonitoringThread() {
   while (true) {
     ScanMonitoredFiles();
+    ScanMonitoredDirs();
 
     std::unique_lock<std::mutex> lock(status_mutex_);
     status_condv_.wait_for(lock, std::chrono::milliseconds(kScanInterval),
-                           [this] { return shut_down_ || new_added_; });
+                           [this] { return shut_down_ || monitor_set_changed;});
     if (shut_down_) {
       return;
     }
@@ -120,36 +121,91 @@ void FileMonitor::ShutDown() {
   shut_down_ = true;
 }
 
-bool FileMonitor::AddDirToMonitor(const std::string& dir_path) {
-  std::string abstract_dir_path = FileSystem::GetAbstractPath(dir_path);
-  if (abstract_dir_path.empty()) {
+bool FileMonitor::AddDirToMonitor(const std::string& dir_path,
+                                  OnFileAddedCallBack on_file_added,
+                                  OnFileDeletedCallBack on_file_deleted) {
+  std::string abstract_path = FileSystem::GetAbstractPath(dir_path);
+  if (abstract_path.empty()) {
     LogERROR("Invalid dir path %s, can't add to monitor", dir_path.c_str());
     return false;
   }
 
   {
     std::unique_lock<std::mutex> lock(dirs_to_watch_mutex_);
-    if (dirs_to_watch_.find(abstract_dir_path) != dirs_to_watch_.end()) {
-      LogERROR("dir %s already being monitored", abstract_dir_path.c_str());
+    if (dirs_to_watch_.find(abstract_path) != dirs_to_watch_.end()) {
+      LogERROR("dir %s already being monitored", abstract_path.c_str());
       return false;
     }
 
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir(abstract_dir_path.c_str())) != nullptr) {
-      dirs_to_watch_.insert(abstract_dir_path);
-      // print all the files and directories within directory.
-      while ((ent = readdir(dir)) != NULL) {
-        //AddFileToMonitor(FileSystem::JoinPath(abstract_dir_path, ent->d_name));
-      }
-      closedir(dir);
-      return true;
-    }
+    dirs_to_watch_.emplace(abstract_path,
+                           std::unique_ptr<DirToMonitor>(new DirToMonitor(
+                               abstract_path, on_file_added, on_file_deleted)));
+    
   }
-  
-  LogERROR("Can't list files in directory %s", dir_path.c_str());
+
+  {
+    std::unique_lock<std::mutex> lock(status_mutex_);
+    monitor_set_changed = true;
+  }
+
   return false;
 }
 
+void FileMonitor::RemoveDirMonitored(const std::string& dir_path) {
+  std::string abstract_path = FileSystem::GetAbstractPath(dir_path);
+  if (abstract_path.empty()) {
+    LogERROR("Invalid file path %s", dir_path.c_str());
+    return;
+  }
+
+  {
+    std::unique_lock<std::mutex> lock(dirs_to_watch_mutex_);
+    auto it = dirs_to_watch_.find(abstract_path);
+    if (it == dirs_to_watch_.end()) {
+      LogINFO("dir %s is not being monitored", abstract_path.c_str());
+      return;
+    }
+    dirs_to_watch_.erase(it);
+  }
+}
+
+void FileMonitor::ScanMonitoredDirs() {
+  std::unique_lock<std::mutex> lock(dirs_to_watch_mutex_);
+  
+  for (auto& it: dirs_to_watch_) {
+    auto dir_path = it.first;
+    auto dir_to_monitor = it.second.get();
+
+    std::vector<std::string> list_files;
+    if (FileSystem::ListDir(dir_path, &list_files) < 0) {
+      LogERROR("Can't list monitored dir %s", dir_path.c_str());
+      return;
+    }
+
+    std::set<std::string> crt_files;
+    for (auto& file_name: list_files) {
+      if (file_name == "." || file_name == "..") {
+        continue;
+      }
+      crt_files.insert(file_name);
+      // new file added.
+      if (dir_to_monitor->files.find(file_name) == dir_to_monitor->files.end()){
+        dir_to_monitor->on_file_added_cb(dir_path, file_name);
+      }
+    }
+    // files deleted.
+    for (auto file_name: dir_to_monitor->files) {
+      if (crt_files.find(file_name) == crt_files.end()) {
+        dir_to_monitor->on_file_deleted_cb(dir_path, file_name);
+      }
+    }
+    dir_to_monitor->files = std::move(crt_files);
+  }
+
+  {
+    std::unique_lock<std::mutex> lock(status_mutex_);
+    monitor_set_changed = false;
+  }
+}
 
 }  // namespace Utility

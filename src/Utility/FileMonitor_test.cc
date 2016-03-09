@@ -21,6 +21,16 @@ void OnFileChange(const std::string& file_path, time_t mtime1, time_t mtime2) {
   std::cout << content << std::endl;
 }
 
+void OnFileAdded(const std::string& dir_path, const std::string& file_path) {
+  printf("File \"%s\" added\n",
+         FileSystem::JoinPath(dir_path, file_path).c_str());
+}
+
+void OnFileDeleted(const std::string& dir_path, const std::string& file_path) {
+  printf("File \"%s\" deleted\n",
+         FileSystem::JoinPath(dir_path, file_path).c_str());
+}
+
 class FileMonitorTest: public UnitTest {
  public:
   void setup() override {
@@ -34,12 +44,35 @@ class FileMonitorTest: public UnitTest {
     Utility::FileMonitor monitor;
     monitor.StartMonitoring();
 
+    // Create a file and monitor it.
     File::SetContent(kDataDir + "/fileA", kFileContentOriginal);
     monitor.AddFileToMonitor(FileSystem::JoinPath(kDataDir, "fileA"),
                              OnFileChange);
-
     std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // Change file contents.
     File::SetContent(kDataDir + "/fileA", kFileContentModified);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // Creat dir to monitor.
+    AssertFalse(FileSystem::CreateDir(kDataDir + "/tmp",
+                                     S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH));
+    monitor.AddDirToMonitor(FileSystem::JoinPath(kDataDir, "tmp"),
+                            OnFileAdded, OnFileDeleted);
+
+    // Add two files into dir.
+    FileSystem::CreateFile(FileSystem::JoinPath(kDataDir, "tmp", "foo"));
+    FileSystem::CreateFile(FileSystem::JoinPath(kDataDir, "tmp", "bar"));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // Remove one file from the dir. Expecting monitor printing info.
+    FileSystem::RemoveFile(FileSystem::JoinPath(kDataDir, "tmp", "bar"));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    // Stop monitoring this dir, and remove the other file in it
+    // Nothing should happen.
+    monitor.RemoveDirMonitored(kDataDir + "/tmp");
+    FileSystem::RemoveFile(FileSystem::JoinPath(kDataDir, "tmp", "foo"));
 
     // Wait for all tasks to finish.
     std::this_thread::sleep_for(std::chrono::seconds(1));
