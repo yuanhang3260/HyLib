@@ -15,7 +15,8 @@ namespace FileSystem {
 // Get abstract path of a file. The file must exist, otherwise it returns "".
 std::string GetAbstractPath(StringPiece filename);
 
-// Join path piece into an abstract path.
+// If the first path arg starts with '/' the result will also be an abstract
+// path. Otherwise it returns a relative path.
 std::string JoinPathImpl(std::initializer_list<StringPiece> arg_list);
 
 template <typename... T>
@@ -26,11 +27,12 @@ std::string JoinPath(const T&... args) {
 // FileSystem utilities.
 bool FileExists(StringPiece file_path);
 bool DirectoryExists(StringPiece dir_path);
+bool CreateFile(StringPiece file_path);
 bool CreateDir(StringPiece path, mode_t mode);
 int  ListDir(StringPiece path, std::vector<std::string>* result);
 
-bool CreateFile(StringPiece file_path);
-bool RemoveFile(StringPiece file_path);
+// Remove file/dir.
+bool Remove(StringPiece file_path); 
 
 
 }  // namespace FileSystem

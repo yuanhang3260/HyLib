@@ -21,9 +21,20 @@ std::string GetAbstractPath(StringPiece filename) {
 
 std::string JoinPathImpl(
                 std::initializer_list<StringPiece> args_list) {
+  if (args_list.size() == 0) {
+    return "";
+  }
+
   std::string result = "";
-  for (auto& path_piece: args_list) {
-    auto str = StringUtils::Strip(path_piece.as_string(), "/");
+  auto it = args_list.begin();
+  if ((*it)[0] == '/') {
+    result = "/";
+  }
+  result += StringUtils::Strip(it->as_string(), "/");
+  it++;
+
+  for (; it != args_list.end(); it++) {
+    auto str = StringUtils::Strip(it->as_string(), "/");
     result += ("/" + str);
   }
   return result;
@@ -37,7 +48,7 @@ bool DirectoryExists(StringPiece path) {
   DIR *pDir;
   bool bExists = false;
   pDir = opendir(path.data());
-  if (pDir != NULL) {
+  if (pDir != nullptr) {
     bExists = true;    
     (void)closedir(pDir);
   }
@@ -45,6 +56,9 @@ bool DirectoryExists(StringPiece path) {
 }
 
 bool CreateDir(StringPiece path, mode_t mode) {
+  if (DirectoryExists(path)) {
+    return true;
+  }
   return mkdir(path.data(), mode) == 0;
 }
 
@@ -59,7 +73,7 @@ bool CreateFile(StringPiece file_path) {
   return true;
 }
 
-bool RemoveFile(StringPiece file_path) {
+bool Remove(StringPiece file_path) {
   if (!FileExists(file_path)) {
     return true;
   }

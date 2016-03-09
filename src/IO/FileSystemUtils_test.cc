@@ -9,8 +9,9 @@ class FileSystemUtilsTest: public UnitTest {
   void Test_JoinPath() {
     std::string expect_result = "/usr/local/bin/foo";
     AssertEqual(expect_result,
-                FileSystem::JoinPath("usr", "/local", "/bin/", "foo/"));
+                FileSystem::JoinPath("/usr", "/local", "/bin/", "foo/"));
 
+    expect_result = "usr/local/bin/foo";
     std::string str1 = "usr";
     std::string str2 = "/bin/";
     AssertEqual(expect_result,

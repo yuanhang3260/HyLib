@@ -9,7 +9,7 @@
 #include "UnitTest/UnitTest.h"
 #include "FileMonitor.h"
 
-std::string kDataDir = FileSystem::GetAbstractPath("data/");
+std::string kDataDir = "data/";
 std::string kFileContentOriginal = "Hello World";
 std::string kFileContentModified = "Good Bye";
 
@@ -44,8 +44,9 @@ class FileMonitorTest: public UnitTest {
     Utility::FileMonitor monitor;
     monitor.StartMonitoring();
 
+
     // Create a file and monitor it.
-    File::SetContent(kDataDir + "/fileA", kFileContentOriginal);
+    File::SetContent(kDataDir + "fileA", kFileContentOriginal);
     monitor.AddFileToMonitor(FileSystem::JoinPath(kDataDir, "fileA"),
                              OnFileChange);
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -55,7 +56,7 @@ class FileMonitorTest: public UnitTest {
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     // Creat dir to monitor.
-    AssertFalse(FileSystem::CreateDir(kDataDir + "/tmp",
+    AssertTrue(FileSystem::CreateDir(kDataDir + "/tmp",
                                      S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH));
     monitor.AddDirToMonitor(FileSystem::JoinPath(kDataDir, "tmp"),
                             OnFileAdded, OnFileDeleted);
@@ -66,13 +67,13 @@ class FileMonitorTest: public UnitTest {
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     // Remove one file from the dir. Expecting monitor printing info.
-    FileSystem::RemoveFile(FileSystem::JoinPath(kDataDir, "tmp", "bar"));
+    FileSystem::Remove(FileSystem::JoinPath(kDataDir, "tmp", "bar"));
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     // Stop monitoring this dir, and remove the other file in it
     // Nothing should happen.
     monitor.RemoveDirMonitored(kDataDir + "/tmp");
-    FileSystem::RemoveFile(FileSystem::JoinPath(kDataDir, "tmp", "foo"));
+    FileSystem::Remove(FileSystem::JoinPath(kDataDir, "tmp", "foo"));
 
     // Wait for all tasks to finish.
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -82,6 +83,7 @@ class FileMonitorTest: public UnitTest {
 
 int main() {
   FileMonitorTest test;
+  test.setup();
   test.Test_MonitorFile();
 
   std::cout << "\033[2;32mPassed ^_^\033[0m" << std::endl;
