@@ -4,7 +4,50 @@
 #include "Base/Utils.h"
 #include "StringBuilder.h"
 
-std::string StringUtils::Strip(std::string str) {
+namespace StringUtils {
+
+bool IsCapitalLetter(const char c) {
+  return c >= 'A' && c <= 'Z';
+}
+
+bool IsLowerCaseLetter(const char c) {
+  return c >= 'a' && c <= 'z';
+}
+
+std::string Upper(std::string str) {
+  char c[str.length()];
+  for (unsigned int i = 0; i < str.length(); i++) {
+    if (str[i] >= 'a' && str[i] <= 'z') {
+      c[i] = str[i] - 32;
+    }
+    else {
+      c[i] = str[i];
+    }
+  }
+  return std::string(c, str.length());
+}
+
+std::string Lower(std::string str) {
+  char c[str.length()];
+  for (unsigned int i = 0; i < str.length(); i++) {
+    if (str[i] >= 'A' && str[i] <= 'Z') {
+      c[i] = str[i] + 32;
+    }
+    else {
+      c[i] = str[i];
+    }
+  }
+  return std::string(c, str.length());
+}
+
+bool IsLetterOrDigitOrUnderScore(const char c) {
+  return (c >= 'a' && c <= 'z') ||
+         (c >= 'A' && c <= 'Z') ||
+         (c >= '0' && c <= '9') ||
+         (c == '_');
+}
+
+std::string Strip(std::string str) {
   if (str.length() <= 1) {
     return str;
   }
@@ -22,7 +65,7 @@ std::string StringUtils::Strip(std::string str) {
   return str.substr(i, j + 1 - i);
 }
 
-std::string StringUtils::Strip(std::string str, std::string match) {
+std::string Strip(std::string str, std::string match) {
   std::string str1 = Strip(str);
   if (match.length() == 0) {
     return str1;
@@ -46,7 +89,7 @@ std::string StringUtils::Strip(std::string str, std::string match) {
   return str.substr(i, j + 1 - i);
 }
 
-bool StringUtils::StartWith(std::string str, std::string match) {
+bool StartWith(std::string str, std::string match) {
   if (match.length() > str.length()) {
     return false;
   }
@@ -58,7 +101,7 @@ bool StringUtils::StartWith(std::string str, std::string match) {
   return true;
 }
 
-bool StringUtils::EndWith(std::string str, std::string match) {
+bool EndWith(std::string str, std::string match) {
   if (match.length() > str.length()) {
     return false;
   }
@@ -71,7 +114,7 @@ bool StringUtils::EndWith(std::string str, std::string match) {
   return true;
 }
 
-std::vector<std::string> StringUtils::Split(const std::string str, const char c) {
+std::vector<std::string> Split(const std::string str, const char c) {
   std::vector<std::string> result;
   unsigned int start = 0;
   for (unsigned int i = 0; i < str.length(); i++) {
@@ -84,8 +127,7 @@ std::vector<std::string> StringUtils::Split(const std::string str, const char c)
   return result;
 }
 
-std::vector<std::string> StringUtils::Split(const std::string str,
-                                            const std::string match) {
+std::vector<std::string> Split(const std::string str, const std::string match) {
   std::vector<std::string> result;
   if (match.length() == 0 || str.length() <= match.length()) {
     return result;
@@ -102,8 +144,7 @@ std::vector<std::string> StringUtils::Split(const std::string str,
   return result;
 }
 
-std::vector<std::string> StringUtils::SplitGreedy(const std::string str,
-                                                  const char c) {
+std::vector<std::string> SplitGreedy(const std::string str, const char c) {
   std::vector<std::string> result;
   unsigned int start = 0;
   for (unsigned int i = 0; i < str.length(); i++) {
@@ -121,8 +162,8 @@ std::vector<std::string> StringUtils::SplitGreedy(const std::string str,
   return result;
 }
 
-std::vector<std::string> StringUtils::SplitGreedy(const std::string str,
-                                                  const std::string match) {
+std::vector<std::string> SplitGreedy(const std::string str,
+                                     const std::string match) {
   std::vector<std::string> result;
   if (match.length() == 0 || str.length() <= match.length()) {
     return result;
@@ -144,12 +185,11 @@ std::vector<std::string> StringUtils::SplitGreedy(const std::string str,
   return result;
 }
 
-bool StringUtils::IsSingleWord(const std::string str) {
+bool IsSingleWord(const std::string str) {
   return SplitGreedy(str, ' ').size() == 0;
 }
 
-std::string
-StringUtils::StrCat(std::vector<std::string> v, unsigned int start = 0) {
+std::string StrCat(std::vector<std::string> v, unsigned int start = 0) {
   std::string result = "";
   for (unsigned int i = start; i < v.size(); i++) {
     result += v[i];
@@ -157,14 +197,14 @@ StringUtils::StrCat(std::vector<std::string> v, unsigned int start = 0) {
   return result;
 }
 
-std::string StringUtils::IntToHexString(int i) {
+std::string IntToHexString(int i) {
   std::stringstream stream;
   stream << "0x" 
          << std::hex << i;
   return stream.str();
 }
 
-int StringUtils::findFirstMatch(std::string str, std::string match) {
+int FindFirstMatch(std::string str, std::string match) {
   if (match.length() > str.length()) {
     return -1;
   }
@@ -176,7 +216,7 @@ int StringUtils::findFirstMatch(std::string str, std::string match) {
   return -1;
 }
 
-int StringUtils::findFirstMatch(
+int FindFirstMatch(
     std::string str, std::string match, int offset) {
   if (match.length() - offset > str.length()) {
     return -1;
@@ -189,7 +229,7 @@ int StringUtils::findFirstMatch(
   return -1;
 }
 
-int StringUtils::findLastMatch(std::string str, std::string match) {
+int FindLastMatch(std::string str, std::string match) {
   if (match.length() > str.length()) {
     return -1;
   }
@@ -201,8 +241,7 @@ int StringUtils::findLastMatch(std::string str, std::string match) {
   return -1;
 }
 
-std::string StringUtils::replaceWith(
-    std::string str, const char old, const char rep) {
+std::string ReplaceWith(std::string str, const char old, const char rep) {
   for (unsigned int i = 0; i < str.length(); i++) {
     if (str[i] == old) {
       str[i] = rep;
@@ -211,7 +250,7 @@ std::string StringUtils::replaceWith(
   return str;
 }
 
-std::string StringUtils::replaceWith(
+std::string ReplaceWith(
     std::string str, const std::string old, const std::string rep) {
   Utility::StringBuilder str_builder;
   for (unsigned int i = 0; i <= str.length() - old.length(); i++) {
@@ -225,8 +264,7 @@ std::string StringUtils::replaceWith(
   return str_builder.ToString();
 }
 
-std::vector<std::string> StringUtils::ExtractTokens(
-    std::string* str, char start, char end) {
+std::vector<std::string> ExtractTokens(std::string* str, char start, char end) {
   Utility::StringBuilder str_builder;
   std::vector<std::string> result;
   bool matching = false;
@@ -251,3 +289,5 @@ std::vector<std::string> StringUtils::ExtractTokens(
   *str = str_builder.ToString();
   return result;
 }
+
+}  // namespce StringUtils

@@ -7,7 +7,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "Base/Log.h"
 #include "BufferedDataReader.h"
+#include "Utility/StringBuilder.h"
 
 namespace Utility {
 
@@ -67,6 +69,7 @@ int BufferedDataReader::Read(char* buf, int off, const int len) {
         int nread;
         if ((nread = refill()) <= 0) {
           if (len == readnLeft) {
+            // Nothing has been read at all. Return 0 or error code.
             return nread;
           }
           return len - readnLeft;
@@ -91,45 +94,56 @@ int BufferedDataReader::Read(char* buf, int off, const int len) {
   return len - readnLeft;
 }
 
-// Read one line from buffer
-std::string* BufferedDataReader::ReadLine(std::string* str) {
+// Read one line from buffer.
+int BufferedDataReader::ReadLine(std::string* str,
+                                 const std::string& line_breaker) {
   // Reach file end.
   int re = 0;
 
-  if (dataLen == 0 && (re = refill()) <= 0) {
-    // fprintf(stderr, "LOG: Refill in readline() returns %d\n", re);
-    return NULL;
-  }
-
-  bool eof = false, line_empty = true;
-  std::stringstream sstr;
+  bool got_line = false, eof = false;
+  Utility::StringBuilder str_builder;
   while (true) {
-    if (dataLen == 0 && refill() <= 0) {
-    	//fprintf(stderr, "LOG: Refill in readline() ended.\n");
-      eof = true;
+    if (dataLen == 0 && (re = refill()) <= 0) {
+      //LogINFO("LOG: Refill in readline() ended.\n");
+      if (re == 0) {
+        // End of file (socket closed).
+        readline_record_.clear();
+        LogINFO("EOF");
+        eof = true;
+      } else {
+        // Errors:
+        // For non-blocking sockets, returning EGAIN or EWOULDBLOCK on empty
+        // receiving buffer is actually not an error. We need to store
+        // already read bytes into readline_record_ for future read.
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+          if (!str_builder.Empty()) {
+            readline_record_ += str_builder.ToString();
+          }
+        }
+        LogERROR("#### ERROR Read %d", errno);
+        return re;
+      }
       break;
     }
 
-    if (buffer[tail] == '\n') {
-      tail++;
-      dataLen -= 1;
+    str_builder.Append(buffer[tail++]);
+    if (str_builder.EndWith(line_breaker)) {
+      str_builder.Truncate(str_builder.Length() - line_breaker.length());
+      got_line = true;
       break;
     }
-    else {
-      dataLen--;
-      line_empty = false;
-      sstr << buffer[tail++];
-    }
+    dataLen--;
   }
 
-  // If end with \n and the previous char is an '\r', discard this '\r'.
-  *str = sstr.str();
-  if (!line_empty) {
-    if (!eof && str->at(str->length() - 1) == '\r') {
-      *str = str->substr(0, str->length() - 1);
-    }
+  *str = readline_record_ + str_builder.ToString();
+  readline_record_.clear();
+  if (got_line) {
+    return str->length();
+  } else if (eof && str->length() > 0) {
+    return str->length();
   }
-  return str;
+
+  return -1;
 }
 
 // Re-fill the internal buffer

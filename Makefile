@@ -19,7 +19,9 @@ OBJ = $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/IO/FileDescriptor.o \
       $(OBJ_DIR)/IO/FileSystemUtils.o \
       $(OBJ_DIR)/IO/TextPrinter.o \
+      $(OBJ_DIR)/Log/Log.o \
       $(OBJ_DIR)/Network/Socket.o \
+      $(OBJ_DIR)/Network/SecuredSocket.o \
       $(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
       $(OBJ_DIR)/Utility/EventManager.o \
@@ -43,6 +45,11 @@ TESTEXE = test/Utils_test.out \
 					test/FileMonitor_test.out \
           test/Strings_test.out \
           test/StringBuilder_test.out \
+
+all: pre_build library
+
+pre_build:
+	mkdir -p $(OBJ_DIR)/Base $(OBJ_DIR)/IO $(OBJ_DIR)/Log $(OBJ_DIR)/Network $(OBJ_DIR)/Utility
 
 library: $(OBJ)
 	ar cr libhy.a $(OBJ)
@@ -99,6 +106,7 @@ clean:
 	rm -rf $(OBJ_DIR)/*.o
 	rm -rf $(OBJ_DIR)/Base/*.o
 	rm -rf $(OBJ_DIR)/IO/*.o
+	rm -rf $(OBJ_DIR)/Log/*.o
 	rm -rf $(OBJ_DIR)/Network/*.o
 	rm -rf $(OBJ_DIR)/UnitTest/*.o
 	rm -rf $(OBJ_DIR)/Utility/*.o

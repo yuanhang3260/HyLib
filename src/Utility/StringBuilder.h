@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "Base/BaseTypes.h"
+
 namespace Utility {
 
 class StringBuilder {
@@ -13,8 +15,16 @@ class StringBuilder {
 
   const char* CharArray() const;
   unsigned int size() const;
-  int IsEmpty() const { return size() == 0; }
+  int Length() const { return size(); }
+  int Empty() const { return size() == 0; }
+  char At(int32 pos) const;
   std::string ToString() const;
+  std::string SubStr(int start, int size) const;
+  std::string Prefix(int size) const;
+  std::string Suffix(int size) const;
+  bool StartWith(const std::string str);
+  bool EndWith(const std::string str);
+
   void Clear();
   void Truncate(const int size);
   void Append(const char c);

@@ -5,34 +5,38 @@
 
 #include "Strings.h"
 
+namespace {
 int rd;
+}
+
+namespace StringUtils {
 
 void test_Strip() {
   std::cout << __FUNCTION__ << "()..." << std::endl;
   std::string result;
   
-  result = StringUtils::Strip("  abcdefg ");
+  result = Strip("  abcdefg ");
   if (result != "abcdefg") {
     fprintf(stderr, "ERROR in Strip(\"  abcdefg \"), returns \"%s\"\n",
                     result.c_str());
     exit(-1);
   }
 
-  result = StringUtils::Strip("  abcdefg");
+  result = Strip("  abcdefg");
   if (result != "abcdefg") {
     fprintf(stderr, "ERROR in Strip(\"  abcdefg\"), returns \"%s\"\n",
                     result.c_str());
     exit(-1);
   }
 
-  result = StringUtils::Strip("abcdefg ");
+  result = Strip("abcdefg ");
   if (result != "abcdefg") {
     fprintf(stderr, "ERROR in Strip(\"abcdefg \"), returns \"%s\"\n",
                     result.c_str());
     exit(-1);
   }
 
-  result = StringUtils::Strip("abcdefg", "abfg");
+  result = Strip("abcdefg", "abfg");
   if (result != "cde") {
     fprintf(stderr,
             "ERROR in Strip(\"abcdefg\", \"abfg\"), returns \"%s\"\n",
@@ -40,7 +44,7 @@ void test_Strip() {
     exit(-1);
   }
 
-  result = StringUtils::Strip("{}abcdefg}", "{}");
+  result = Strip("{}abcdefg}", "{}");
   if (result != "abcdefg") {
     fprintf(stderr,
             "ERROR in Strip(\"{}abcdefg}\", \"{}\"), returns \"%s\"\n",
@@ -48,7 +52,7 @@ void test_Strip() {
     exit(-1);
   }
 
-  result = StringUtils::Strip("abcde", "abxyzde");
+  result = Strip("abcde", "abxyzde");
   if (result != "c") {
     fprintf(stderr,
             "ERROR in Strip(\"abcde\", \"abxyzde\"), returns \"%s\"\n",
@@ -56,7 +60,7 @@ void test_Strip() {
     exit(-1);
   }
 
-  result = StringUtils::Strip("abcdfe", "{abxyzde");
+  result = Strip("abcdfe", "{abxyzde");
   if (result != "abcdf") {
     fprintf(stderr,
             "ERROR in Strip(\"abcdfe}\", \"abxyzde\"), returns \"%s\"\n",
@@ -64,7 +68,7 @@ void test_Strip() {
     exit(-1);
   }
 
-  result = StringUtils::Strip(" [abcdfe] ");
+  result = Strip(" [abcdfe] ");
   if (result != "[abcdfe]") {
     fprintf(stderr,
             "ERROR in Strip(\" [abcdfe] \", \"[]\"), returns \"%s\"\n",
@@ -80,48 +84,48 @@ void test_StartWith() {
   std::string str;
 
   str = "package snoopy;";
-  if (!StringUtils::StartWith(str, "package ")) {
+  if (!StartWith(str, "package ")) {
     fprintf(stderr,
             "ERROR in StartWith(\"//abcdefg \", \"//\"), should return true\n");
     exit(-1);
   }
 
   str = "//abcdefg";
-  if (StringUtils::StartWith(str, " /")) {
+  if (StartWith(str, " /")) {
     fprintf(stderr,
             "ERROR in StartWith(\" /abcdefg\", \" /\"), should return false\n");
     exit(-1);
   }
 
   str = "abc";
-  if (!StringUtils::StartWith(str, "")) {
+  if (!StartWith(str, "")) {
     fprintf(stderr, "ERROR in StartWith(\"abc\", \"\"), should return true\n");
     exit(-1);
   }
 
   str = "abc";
-  if (StringUtils::StartWith(str, "abcdef")) {
+  if (StartWith(str, "abcdef")) {
     fprintf(stderr,
             "ERROR in StartWith(\"abc\", \"abcdefg\"), should return false\n");
     exit(-1);
   }
 
   str = "abc";
-  if (!StringUtils::StartWith(str, "abc")) {
+  if (!StartWith(str, "abc")) {
     fprintf(stderr,
             "ERROR in StartWith(\"abc\", \"abc\"), should return true\n");
     exit(-1);
   }
 
   str = "";
-  if (!StringUtils::StartWith(str, "")) {
+  if (!StartWith(str, "")) {
     fprintf(stderr,
             "ERROR in StartWith(\"\", \"\"), should return true\n");
     exit(-1);
   }
 
   str = "";
-  if (StringUtils::StartWith(str, "a")) {
+  if (StartWith(str, "a")) {
     fprintf(stderr,
             "ERROR in StartWith(\"\", \"a\"), should return false\n");
     exit(-1);
@@ -135,48 +139,48 @@ void test_EndWith() {
   std::string str;
 
   str = "package snoopy;";
-  if (!StringUtils::EndWith(str, "snoopy;")) {
+  if (!EndWith(str, "snoopy;")) {
     fprintf(stderr,
             "ERROR in EndWith(\"//abcdefg \", \"snoopy;\"), should return true\n");
     exit(-1);
   }
 
   str = "//abcdefg";
-  if (StringUtils::EndWith(str, "g ")) {
+  if (EndWith(str, "g ")) {
     fprintf(stderr,
             "ERROR in EndWith(\" /abcdefg\", \"g \"), should return false\n");
     exit(-1);
   }
 
   str = "abc";
-  if (!StringUtils::EndWith(str, "")) {
+  if (!EndWith(str, "")) {
     fprintf(stderr, "ERROR in EndWith(\"abc\", \"\"), should return true\n");
     exit(-1);
   }
 
   str = "abc";
-  if (StringUtils::EndWith(str, "abcdef")) {
+  if (EndWith(str, "abcdef")) {
     fprintf(stderr,
             "ERROR in EndWith(\"abc\", \"abcdefg\"), should return false\n");
     exit(-1);
   }
 
   str = "abc";
-  if (!StringUtils::EndWith(str, "abc")) {
+  if (!EndWith(str, "abc")) {
     fprintf(stderr,
             "ERROR in EndWith(\"abc\", \"abc\"), should return true\n");
     exit(-1);
   }
 
   str = "";
-  if (!StringUtils::EndWith(str, "")) {
+  if (!EndWith(str, "")) {
     fprintf(stderr,
             "ERROR in EndWith(\"\", \"\"), should return true\n");
     exit(-1);
   }
 
   str = "";
-  if (StringUtils::EndWith(str, "a")) {
+  if (EndWith(str, "a")) {
     fprintf(stderr,
             "ERROR in EndWith(\"\", \"a\"), should return false\n");
     exit(-1);
@@ -222,9 +226,9 @@ void test_Split() {
   {
     str = "ab cd efg ";
     std::vector<std::string> expect1{"ab", "cd", "efg", ""};
-    std::vector<std::string> result1 = StringUtils::Split(str, ' ');
+    std::vector<std::string> result1 = Split(str, ' ');
     std::vector<std::string> expect2{"ab", "cd", "efg"};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, ' ');
+    std::vector<std::string> result2 = SplitGreedy(str, ' ');
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -232,9 +236,9 @@ void test_Split() {
   {
     str = " ab cd efg";
     std::vector<std::string> expect1{"", "ab", "cd", "efg"};
-    std::vector<std::string> result1 = StringUtils::Split(str, " ");
+    std::vector<std::string> result1 = Split(str, " ");
     std::vector<std::string> expect2{"ab", "cd", "efg"};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, " ");
+    std::vector<std::string> result2 = SplitGreedy(str, " ");
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -242,9 +246,9 @@ void test_Split() {
   {
     str = " ab cdcd efg";
     std::vector<std::string> expect1{" ab ", "", " efg"};
-    std::vector<std::string> result1 = StringUtils::Split(str, "cd");
+    std::vector<std::string> result1 = Split(str, "cd");
     std::vector<std::string> expect2{" ab ", " efg"};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, "cd");
+    std::vector<std::string> result2 = SplitGreedy(str, "cd");
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -252,9 +256,9 @@ void test_Split() {
   {
     str = " ab cd";
     std::vector<std::string> expect1;
-    std::vector<std::string> result1 = StringUtils::Split(str, " ab cd ");
+    std::vector<std::string> result1 = Split(str, " ab cd ");
     std::vector<std::string> expect2{" "};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, "ab cd");
+    std::vector<std::string> result2 = SplitGreedy(str, "ab cd");
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -262,9 +266,9 @@ void test_Split() {
   {
     str = "ab abab";
     std::vector<std::string> expect1{"", " ", "", ""};
-    std::vector<std::string> result1 = StringUtils::Split(str, "ab");
+    std::vector<std::string> result1 = Split(str, "ab");
     std::vector<std::string> expect2{" "};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, "ab");
+    std::vector<std::string> result2 = SplitGreedy(str, "ab");
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -272,10 +276,10 @@ void test_Split() {
   {
     str = "x ayaaza";
     std::vector<std::string> expect1{"x ", "y", "", "z", ""};
-    std::vector<std::string> result1 = StringUtils::Split(str, 'a');
+    std::vector<std::string> result1 = Split(str, 'a');
     str = "ax ayaaza";
     std::vector<std::string> expect2{"x ", "y", "z"};
-    std::vector<std::string> result2 = StringUtils::SplitGreedy(str, "a");
+    std::vector<std::string> result2 = SplitGreedy(str, "a");
     test_Split_Impl(expect1, result1, expect2, result2);
   }
 
@@ -290,7 +294,7 @@ void test_ReplaceWith() {
   // Round 0
   {
     str = "ab.cd.efg";
-    std::string result = StringUtils::replaceWith(str, ".", "::");
+    std::string result = ReplaceWith(str, ".", "::");
     if ("ab::cd::efg" != result) {
       fprintf(stderr,
               "ERROR Round %d ReplaceWith(\"ab.cd.efg \", \".\", \"::\")\n", rd);
@@ -302,7 +306,7 @@ void test_ReplaceWith() {
   // Round 1
   {
     str = "ab.cd.efg.";
-    std::string result = StringUtils::replaceWith(str, ".", "::");
+    std::string result = ReplaceWith(str, ".", "::");
     if ("ab::cd::efg::" != result) {
       fprintf(stderr,
               "ERROR Round %d ReplaceWith(\"ab.cd.efg. \", \".\", \"::\")\n", rd);
@@ -314,7 +318,7 @@ void test_ReplaceWith() {
   // Round 2
   {
     str = ".ab.cd.efg";
-    std::string result = StringUtils::replaceWith(str, ".", "::");
+    std::string result = ReplaceWith(str, ".", "::");
     if ("::ab::cd::efg" != result) {
       fprintf(stderr,
               "ERROR Round %d ReplaceWith(\".ab.cd.efg \", \".\", \"::\")\n", rd);
@@ -334,7 +338,7 @@ void test_GetToken() {
   // Round 0
   {
     str = "rpc AddStudent(StudentRequest) returns (StudentResponse) {";
-    std::vector<std::string> result = StringUtils::ExtractTokens(&str, '(', ')');
+    std::vector<std::string> result = ExtractTokens(&str, '(', ')');
     if ("rpc AddStudent returns  {" != str) {
       fprintf(stderr,
               "ERROR Round %d ReplaceWith(rpc AddStudent(StudentRequest) returns (StudentResponse) {", rd);
@@ -361,12 +365,14 @@ void test_GetToken() {
   std::cout << "Passed ^_^" << std::endl;
 }
 
+}  // namespace StringUtils
+
 int main(int argc, char** argv) {
-  test_Strip();
-  test_StartWith();
-  test_EndWith();
-  test_Split();
-  test_ReplaceWith();
-  test_GetToken();
+  StringUtils::test_Strip();
+  StringUtils::test_StartWith();
+  StringUtils::test_EndWith();
+  StringUtils::test_Split();
+  StringUtils::test_ReplaceWith();
+  StringUtils::test_GetToken();
   return 0;
 }

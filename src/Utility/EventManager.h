@@ -66,11 +66,11 @@ class EventManager {
   void SetThreadPoolSize(size_t size);
   size_t Size();
 
-  void AddTask(Closure* task);
-  int AddTaskWaitingReadable(int fd, Closure* task);
-  int AddTaskWaitingWritable(int fd, Closure* task);
+  void AddTask(Executors::Closure task);
+  int AddTaskWaitingReadable(int fd, Executors::Closure task);
+  int AddTaskWaitingWritable(int fd, Executors::Closure task);
   int RemoveAwaitingTask(int fd);
-  int ModifyTaskWaitingStatus(int fd, int status, Closure* task);
+  int ModifyTaskWaitingStatus(int fd, int status, Executors::Closure task);
 
   void Start();
   void AwaitTermination();
@@ -81,7 +81,7 @@ class EventManager {
  private:
   FixedThreadPool thread_pool_;
   Epoll epoll_;
-  std::map<int, Closure*> inactive_tasks_map_;
+  std::map<int, Executors::Closure> inactive_tasks_map_;
   std::mutex mutex_;
 };
 

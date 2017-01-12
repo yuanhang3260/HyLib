@@ -35,6 +35,37 @@ std::string StringBuilder::ToString() const {
   return std::string(buf_, size_);
 }
 
+std::string StringBuilder::SubStr(int start, int size) const {
+  if (start < 0 || start + size > size_) {
+    return "";
+  }
+
+  return std::string(buf_ + start, size);
+}
+
+std::string StringBuilder::Prefix(int size) const {
+  return SubStr(0, size);
+}
+
+std::string StringBuilder::Suffix(int size) const {
+  return SubStr(size_ - size, size);
+}
+
+bool StringBuilder::StartWith(const std::string str) {
+  return Prefix(str.length()) == str;
+}
+
+bool StringBuilder::EndWith(const std::string str) {
+  return Suffix(str.length()) == str;
+}
+
+char StringBuilder::At(int32 pos) const {
+  if (pos >= size_) {
+    return -1;
+  }
+  return buf_[pos];
+}
+
 void StringBuilder::Clear() {
   size_ = 0;
   memset(buf_, 0, buf_size_);
@@ -83,4 +114,4 @@ void StringBuilder::Append(std::string str) {
   Append(str.c_str(), str.length());
 }
 
-}
+}  // namespace Utility

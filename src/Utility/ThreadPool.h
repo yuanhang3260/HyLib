@@ -31,7 +31,6 @@ class FixedThreadPool {
   void SetPoolSize(size_t);
   size_t Size() const;
 
-  void AddTask(Closure* task);
   void AddTask(Closure task);
 
   ~FixedThreadPool();
@@ -48,7 +47,7 @@ class FixedThreadPool {
   std::vector<std::thread> workers;
 
   // the task queue
-  std::queue<std::unique_ptr<Closure>> tasks;
+  std::queue<Closure> tasks;
   
   // synchronization
   std::mutex worker_mutex;
@@ -59,7 +58,7 @@ class FixedThreadPool {
   State state_;
 
   // thread size
-  unsigned int thread_size_;
+  unsigned int pool_size;
 };
 
 } // namespace Executors

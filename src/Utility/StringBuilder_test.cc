@@ -42,6 +42,25 @@ int main(int argc, char** argv) {
                       strBuilder.ToString().c_str());
       exit(-1);
     }
+
+    if (strBuilder.SubStr(2, 4) != "cdeh") {
+      fprintf(stderr, "ERROR: Expect \"cdeh\", Actual \"%s\"\n",
+                      strBuilder.SubStr(2, 4).c_str());
+      exit(-1);
+    }
+
+    if (strBuilder.SubStr(-1, 4) != "") {
+      fprintf(stderr, "ERROR: Expect \"\", Actual \"%s\"\n",
+                      strBuilder.SubStr(-1, 4).c_str());
+      exit(-1);
+    }
+
+    if (strBuilder.SubStr(3, 4) != "") {
+      fprintf(stderr, "ERROR: Expect \"\", Actual \"%s\"\n",
+                      strBuilder.SubStr(3, 4).c_str());
+      exit(-1);
+    }
+
     strBuilder.Clear();
     if (strBuilder.ToString() != "") {
       fprintf(stderr,"ERROR: Expect \"\", Actual \"%s\"\n",

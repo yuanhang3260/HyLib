@@ -56,33 +56,27 @@ void EventManager::EpollAwakeHandler(const Epoll::ActiveEvents* active_events) {
   }
 }
 
-void EventManager::AddTask(Closure* task) {
+void EventManager::AddTask(Executors::Closure task) {
   thread_pool_.AddTask(task);
 }
 
-int EventManager::AddTaskWaitingReadable(int fd, Closure* task) {
+int EventManager::AddTaskWaitingReadable(int fd, Executors::Closure task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.AddMonitorReadableEvent(fd);
   if (ret) {
     return ret;
   }
-  if (inactive_tasks_map_.find(fd) != inactive_tasks_map_.end()) {
-    delete inactive_tasks_map_[fd];
-  }
-  inactive_tasks_map_[fd] = task;
+  inactive_tasks_map_[fd] = std::move(task);
   return 0;
 }
 
-int EventManager::AddTaskWaitingWritable(int fd, Closure* task) {
+int EventManager::AddTaskWaitingWritable(int fd, Executors::Closure task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.AddMonitorWritableEvent(fd);
   if (ret) {
     return ret;
   }
-  if (inactive_tasks_map_.find(fd) != inactive_tasks_map_.end()) {
-    delete inactive_tasks_map_[fd];
-  }
-  inactive_tasks_map_[fd] = task;
+  inactive_tasks_map_[fd] = std::move(task);
   return 0;
 }
 
@@ -92,24 +86,17 @@ int EventManager::RemoveAwaitingTask(int fd) {
   if (ret) {
     return ret;
   }
-  if (inactive_tasks_map_.find(fd) != inactive_tasks_map_.end()) {
-    delete inactive_tasks_map_[fd];
-    inactive_tasks_map_.erase(inactive_tasks_map_.find(fd));
-  }
   return 0;
 }
 
 int EventManager::ModifyTaskWaitingStatus(
-    int fd, int status, Closure* task) {
+    int fd, int status, Executors::Closure task) {
   std::unique_lock<std::mutex> lock(mutex_);
   int ret = epoll_.ModifyMonitorEvent(fd, status);
   if (ret) {
     return ret;
   }
-  if (inactive_tasks_map_.find(fd) != inactive_tasks_map_.end()) {
-    delete inactive_tasks_map_[fd];
-  }
-  inactive_tasks_map_[fd] = task;
+  inactive_tasks_map_[fd] = std::move(task);
   return 0;
 }
 
