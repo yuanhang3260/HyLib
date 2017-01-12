@@ -27,7 +27,7 @@ class BufferedDataReader {
   // read a chunk of data from buffer
   int Read(char* buf, int off, const int len);
 
-  // Read one line from buffer. Return length of read line or error code.
+  // Read one line from buffer. Return length of read line or -1 on failure.
   int ReadLine(std::string* str, const std::string& line_breaker="\r\n");
 
   // Close the pipe

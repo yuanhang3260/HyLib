@@ -126,7 +126,7 @@ int TextPrinterImpl::Print_Impl(
       }
     }
   }
-  if (!strbuf.IsEmpty()) {
+  if (!strbuf.Empty()) {
     printed_size += DoPrint(strbuf.CharArray(), strbuf.size());
   }
 

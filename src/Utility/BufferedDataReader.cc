@@ -110,6 +110,7 @@ int BufferedDataReader::ReadLine(std::string* str,
         readline_record_.clear();
         LogINFO("EOF");
         eof = true;
+        break;
       } else {
         // Errors:
         // For non-blocking sockets, returning EGAIN or EWOULDBLOCK on empty
@@ -121,9 +122,8 @@ int BufferedDataReader::ReadLine(std::string* str,
           }
         }
         LogERROR("#### ERROR Read %d", errno);
-        return re;
+        return -1;
       }
-      break;
     }
 
     str_builder.Append(buffer[tail++]);
