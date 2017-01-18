@@ -127,12 +127,12 @@ int BufferedDataReader::ReadLine(std::string* str,
     }
 
     str_builder.Append(buffer[tail++]);
+    dataLen--;
     if (str_builder.EndWith(line_breaker)) {
       str_builder.Truncate(str_builder.Length() - line_breaker.length());
       got_line = true;
       break;
     }
-    dataLen--;
   }
 
   *str = readline_record_ + str_builder.ToString();
