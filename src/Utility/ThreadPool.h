@@ -44,21 +44,21 @@ class FixedThreadPool {
   void ThreadWorker();
 
   // need to keep track of threads so we can join them
-  std::vector<std::thread> workers;
+  std::vector<std::thread> workers_;
 
   // the task queue
-  std::queue<Closure> tasks;
-  
+  std::queue<Closure> tasks_;
+
   // synchronization
-  std::mutex worker_mutex;
-  std::mutex queue_mutex;
-  std::condition_variable condition;
+  std::mutex worker_mutex_;
+  std::mutex queue_mutex_;
+  std::condition_variable condition_;
   
   // stop flag
   State state_;
 
   // thread size
-  unsigned int pool_size;
+  unsigned int pool_size_;
 };
 
 } // namespace Executors

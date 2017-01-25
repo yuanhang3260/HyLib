@@ -6,10 +6,22 @@
 class Utils {
  public:
   template<typename T>
-  static T Max(T t1, T t2) { return t1 > t2? t1 : t2; }
+  static T Max(const T& t1, const T& t2) { return t1 > t2? t1 : t2; }
+
+  template<typename T1, typename T2>
+  static T1 Max(const T1& t1, const T2& t2) {
+    T2 t2_converted = static_cast<T1>(t2);
+    return t1 > t2_converted? t1 : t2_converted;
+  }
 
   template<typename T>
-  static T Min(T t1, T t2) { return t1 < t2? t1 : t2; }
+  static T Min(const T& t1, const T& t2) { return t1 < t2? t1 : t2; }
+
+  template<typename T1, typename T2>
+  static T1 Min(const T1& t1, const T2& t2) {
+    T2 t2_converted = static_cast<T1>(t2);
+    return t1 < t2_converted? t1 : t2_converted;
+  }
 
   template<typename T>
   static void Swap(T* t1, T* t2) {
