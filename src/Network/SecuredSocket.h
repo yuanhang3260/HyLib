@@ -9,7 +9,7 @@
 #include "openssl/err.h"
 
 #include "Socket.h"
-#include "../IO/FileDescriptorInterface.h"
+#include "IO/FileDescriptorInterface.h"
 
 namespace Network {
 
@@ -31,6 +31,8 @@ class SecuredSocket : public IO::FileDescriptorInterface {
   }
 
   bool ssl_connection_established() { return ssl_connection_established_; }
+
+  virtual bool secured() { return true; }
 
  private:
  	std::string hostname_;

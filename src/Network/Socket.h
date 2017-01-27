@@ -1,11 +1,11 @@
-#ifndef __SOCKET_H__
-#define __SOCKET_H__
+#ifndef SOCKET_H__
+#define SOCKET_H__
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "../IO/FileDescriptorInterface.h"
+#include "IO/FileDescriptorInterface.h"
 
 namespace Network {
 
@@ -32,6 +32,8 @@ class Socket : public IO::FileDescriptorInterface {
   virtual int Write(const void* buf, int nbytes) const;
   virtual int Send(void* buffer, int nbytes) const;
   virtual int Recv(const void* buffer, int nbytes) const;
+
+  virtual bool secured() { return false; }
 
  private:
   std::string hostname_;
