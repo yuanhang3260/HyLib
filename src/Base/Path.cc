@@ -1,5 +1,5 @@
 #include "Base/Log.h"
-#include "Utility/Strings.h"
+#include "Strings/Utils.h"
 #include "Base/Path.h"
 
 namespace Path {
@@ -15,11 +15,11 @@ std::string JoinPathImpl(
   if ((*it)[0] == '/') {
     result = "/";
   }
-  result += StringUtils::Strip(it->as_string(), "/");
+  result += Strings::Strip(it->as_string(), "/");
   it++;
 
   for (; it != args_list.end(); it++) {
-    auto str = StringUtils::Strip(it->as_string(), "/");
+    auto str = Strings::Strip(it->as_string(), "/");
     result += ("/" + str);
   }
   return result;

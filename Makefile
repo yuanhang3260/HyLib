@@ -10,6 +10,7 @@ IFLAGS=-Isrc/
 
 SRC_DIR=src
 OBJ_DIR=lib
+TEST_DIR=test
 
 OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Base/Path.o \
@@ -23,13 +24,14 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/IO/TextPrinter.o \
       $(OBJ_DIR)/Network/Socket.o \
       $(OBJ_DIR)/Network/SecuredSocket.o \
+      $(OBJ_DIR)/Strings/Split.o \
+      $(OBJ_DIR)/Strings/Utils.o \
       $(OBJ_DIR)/Utility/CleanUp.o \
 			$(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
       $(OBJ_DIR)/Utility/EventManager.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
       $(OBJ_DIR)/Utility/StringBuilder.o \
-      $(OBJ_DIR)/Utility/Strings.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
@@ -38,20 +40,23 @@ TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
 					$(OBJ_DIR)/IO/TextPrinter_test.o \
 					$(OBJ_DIR)/Utility/FileMonitor_test.o \
           $(OBJ_DIR)/Utility/StringBuilder_test.o \
-          $(OBJ_DIR)/Utility/Strings_test.o \
+          $(OBJ_DIR)/Strings/Utils_test.o \
+					$(OBJ_DIR)/Strings/Split_test.o \
 
-TESTEXE = test/Utils_test.out \
-					test/Singleton_test.out \
-					test/Path_test.out \
-					test/TextPrinter_test.out \
-					test/FileMonitor_test.out \
-          test/Strings_test.out \
-          test/StringBuilder_test.out \
+TESTEXE = test/Base/Utils_test.out \
+					test/Base/Singleton_test.out \
+					test/Base/Path_test.out \
+					test/Utility/TextPrinter_test.out \
+					test/Utility/FileMonitor_test.out \
+					test/Utility/StringBuilder_test.out \
+					test/Strings/Split_test.out \
+					test/Strings/Utils_test.out \
 
 all: pre_build library
 
 pre_build:
-	mkdir -p $(OBJ_DIR)/Base $(OBJ_DIR)/IO $(OBJ_DIR)/Network $(OBJ_DIR)/Utility
+	mkdir -p $(OBJ_DIR)/Base $(OBJ_DIR)/IO $(OBJ_DIR)/Network $(OBJ_DIR)/Utility $(OBJ_DIR)/Strings
+	mkdir -p $(TEST_DIR)/Base $(TEST_DIR)/IO $(TEST_DIR)/Network $(TEST_DIR)/Utility $(TEST_DIR)/Strings
 
 library: $(OBJ)
 	ar cr libhy.a $(OBJ)
@@ -87,18 +92,27 @@ $(OBJ_DIR)/IO/%.o: $(SRC_DIR)/IO/%.cc $(SRC_DIR)/IO/%.h
 $(OBJ_DIR)/IO/%.o: $(SRC_DIR)/IO/%.cc
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/Strings/%.o: $(SRC_DIR)/Strings/%.cc $(SRC_DIR)/Strings/%.h
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/Strings/%.o: $(SRC_DIR)/Strings/%.cc
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+
 
 # Tests
-test/%.out: $(OBJ_DIR)/Utility/%.o library
+$(TEST_DIR)/Utility/%.out: $(OBJ_DIR)/Utility/%.o library
 	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
-test/%.out: $(OBJ_DIR)/Base/%.o library
+$(TEST_DIR)/Base/%.out: $(OBJ_DIR)/Base/%.o library
 	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
-test/%.out: $(OBJ_DIR)/Network/%.o library
+$(TEST_DIR)/Network/%.out: $(OBJ_DIR)/Network/%.o library
 	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
-test/%.out: $(OBJ_DIR)/IO/%.o library
+$(TEST_DIR)/IO/%.out: $(OBJ_DIR)/IO/%.o library
+	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
+
+$(TEST_DIR)/Strings/%.out: $(OBJ_DIR)/Strings/%.o library
 	$(CC) $(CFLAGS) $< libhy.a $(LFLAGS) -o $@
 
 clean:
@@ -109,7 +123,8 @@ clean:
 	rm -rf $(OBJ_DIR)/Base/*.o
 	rm -rf $(OBJ_DIR)/IO/*.o
 	rm -rf $(OBJ_DIR)/Network/*.o
+	rm -rf $(OBJ_DIR)/Strings/*.o
 	rm -rf $(OBJ_DIR)/UnitTest/*.o
 	rm -rf $(OBJ_DIR)/Utility/*.o
-	rm -rf test/*.out
+	rm -rf test/*
 	rm -rf data/*

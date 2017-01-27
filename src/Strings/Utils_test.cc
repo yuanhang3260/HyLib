@@ -1,15 +1,13 @@
-#include "stdlib.h"
-#include "stdio.h"
-#include "iostream"
-#include "string"
+#include <iostream>
+#include <string>
 
-#include "Strings.h"
+#include "Strings/Utils.h"
 
 namespace {
 int rd;
 }
 
-namespace StringUtils {
+namespace Strings {
 
 void test_Strip() {
   std::cout << __FUNCTION__ << "()..." << std::endl;
@@ -189,103 +187,6 @@ void test_EndWith() {
   std::cout << "Passed ^_^" << std::endl;
 }
 
-void test_Split_Impl(std::vector<std::string>& expect1,
-                     std::vector<std::string>& result1,
-                     std::vector<std::string>& expect2,
-                     std::vector<std::string>& result2) {
-  if (expect1 != result1) {
-    fprintf(stderr,
-            "ERROR Round %d, Split(\"ab cd efg \", \" \")\n", rd);
-    fprintf(stderr, "returns: ");
-    for (auto& str: result1) {
-      fprintf(stderr, "\"%s\", ", str.c_str());
-    }
-    fprintf(stderr, "\n");
-    exit(-1);
-  }
-
-  if (expect2 != result2) {
-    fprintf(stderr,
-            "ERROR Round %d SplitGreedy(\"ab cd efg \", \" \")\n", rd);
-    fprintf(stderr, "returns: ");
-    for (auto& str: result2) {
-      fprintf(stderr, "\"%s\", ", str.c_str());
-    }
-    fprintf(stderr, "\n");
-    exit(-1);
-  }
-  rd++;
-}
-
-void test_Split() {
-  std::cout << __FUNCTION__ << "()..." << std::endl;
-  rd = 0;
-  std::string str;
-
-  // Round 0
-  {
-    str = "ab cd efg ";
-    std::vector<std::string> expect1{"ab", "cd", "efg", ""};
-    std::vector<std::string> result1 = Split(str, ' ');
-    std::vector<std::string> expect2{"ab", "cd", "efg"};
-    std::vector<std::string> result2 = SplitGreedy(str, ' ');
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  // Round 1
-  {
-    str = " ab cd efg";
-    std::vector<std::string> expect1{"", "ab", "cd", "efg"};
-    std::vector<std::string> result1 = Split(str, " ");
-    std::vector<std::string> expect2{"ab", "cd", "efg"};
-    std::vector<std::string> result2 = SplitGreedy(str, " ");
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  // Round 2
-  {
-    str = " ab cdcd efg";
-    std::vector<std::string> expect1{" ab ", "", " efg"};
-    std::vector<std::string> result1 = Split(str, "cd");
-    std::vector<std::string> expect2{" ab ", " efg"};
-    std::vector<std::string> result2 = SplitGreedy(str, "cd");
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  // Round 3
-  {
-    str = " ab cd";
-    std::vector<std::string> expect1;
-    std::vector<std::string> result1 = Split(str, " ab cd ");
-    std::vector<std::string> expect2{" "};
-    std::vector<std::string> result2 = SplitGreedy(str, "ab cd");
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  // Round 4
-  {
-    str = "ab abab";
-    std::vector<std::string> expect1{"", " ", "", ""};
-    std::vector<std::string> result1 = Split(str, "ab");
-    std::vector<std::string> expect2{" "};
-    std::vector<std::string> result2 = SplitGreedy(str, "ab");
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  // Round 5
-  {
-    str = "x ayaaza";
-    std::vector<std::string> expect1{"x ", "y", "", "z", ""};
-    std::vector<std::string> result1 = Split(str, 'a');
-    str = "ax ayaaza";
-    std::vector<std::string> expect2{"x ", "y", "z"};
-    std::vector<std::string> result2 = SplitGreedy(str, "a");
-    test_Split_Impl(expect1, result1, expect2, result2);
-  }
-
-  std::cout << "Passed ^_^" << std::endl;
-}
-
 void test_ReplaceWith() {
   std::cout << __FUNCTION__ << "()..." << std::endl;
   rd = 0;
@@ -365,14 +266,13 @@ void test_GetToken() {
   std::cout << "Passed ^_^" << std::endl;
 }
 
-}  // namespace StringUtils
+}  // namespace Strings
 
 int main(int argc, char** argv) {
-  StringUtils::test_Strip();
-  StringUtils::test_StartWith();
-  StringUtils::test_EndWith();
-  StringUtils::test_Split();
-  StringUtils::test_ReplaceWith();
-  StringUtils::test_GetToken();
+  Strings::test_Strip();
+  Strings::test_StartWith();
+  Strings::test_EndWith();
+  Strings::test_ReplaceWith();
+  Strings::test_GetToken();
   return 0;
 }

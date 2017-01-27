@@ -3,6 +3,9 @@
 
 #include <stdexcept>
 
+#define DEFINE_GETTER(FIELD_NAME, TYPE) \
+  TYPE FIELD_NAME() const { return FIELD_NAME##_; } \
+
 #define DEFINE_ACCESSOR(FIELD_NAME, TYPE) \
   TYPE FIELD_NAME() const { return FIELD_NAME##_; } \
   void set_##FIELD_NAME(TYPE FIELD_NAME) { FIELD_NAME##_ = FIELD_NAME; } \

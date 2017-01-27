@@ -30,6 +30,11 @@ class UnitTest {
     }
   }
 
+  template <typename T1, typename T2>
+  void AssertEqual(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertEqual<T1>(expect, static_cast<T1>(actual), error_msg);
+  }
+
   template <typename T>
   void AssertNonEqual(T expect, T actual, std::string error_msg="") {
     if (expect == actual) {
@@ -37,6 +42,11 @@ class UnitTest {
       std::cerr << "Error Message: " << error_msg << std::endl;
       throw AssertError();
     }
+  }
+
+  template <typename T1, typename T2>
+  void AssertNonEqual(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertEqual<T1>(expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T>
@@ -49,6 +59,11 @@ class UnitTest {
     }
   }
 
+  template <typename T1, typename T2>
+  void AssertGreater(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertGreater<T1>(expect, static_cast<T1>(actual), error_msg);
+  }
+
   template <typename T>
   void AssertLess(T expect, T actual, std::string error_msg="") {
     if (expect >= actual) {
@@ -57,6 +72,11 @@ class UnitTest {
       std::cerr << "Error Message: " << error_msg << std::endl;
       throw AssertError();
     }
+  }
+
+  template <typename T1, typename T2>
+  void AssertLess(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertLess<T1>(expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T>
@@ -69,6 +89,11 @@ class UnitTest {
     }
   }
 
+  template <typename T1, typename T2>
+  void AssertGreaterEqual(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertGreaterEqual<T1>(expect, static_cast<T1>(actual), error_msg);
+  }
+
   template <typename T>
   void AssertLessEqual(T expect, T actual, std::string error_msg="") {
     if (expect > actual) {
@@ -77,6 +102,11 @@ class UnitTest {
       std::cerr << "Error Message: " << error_msg << std::endl;
       throw AssertError();
     }
+  }
+
+  template <typename T1, typename T2>
+  void AssertLessEqual(T1 expect, T2 actual, std::string error_msg="") {
+    return AssertLessEqual<T1>(expect, static_cast<T1>(actual), error_msg);
   }
 
   void AssertTrue(bool condition, std::string error_msg="") {
