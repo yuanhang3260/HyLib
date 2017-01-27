@@ -114,11 +114,18 @@ bool EndWith(std::string str, std::string match) {
   return true;
 }
 
-std::vector<std::string> Split(const std::string str, const char c) {
+std::vector<std::string> Split(const std::string str, char c) {
+  return Split(str, AnyOf(std::string(1, c)));
+}
+
+std::vector<std::string> Split(const std::string str, const AnyOf& char_set) {
   std::vector<std::string> result;
+  if (str.empty()) {
+    return result;
+  }
   unsigned int start = 0;
   for (unsigned int i = 0; i < str.length(); i++) {
-    if (str[i] == c) {
+    if (char_set.has(str[i])) {
       result.push_back(str.substr(start, i - start));
       start = i + 1;
     }
@@ -129,6 +136,9 @@ std::vector<std::string> Split(const std::string str, const char c) {
 
 std::vector<std::string> Split(const std::string str, const std::string match) {
   std::vector<std::string> result;
+  if (str.empty()) {
+    return result;
+  }
   if (match.length() == 0 || str.length() <= match.length()) {
     return result;
   }
@@ -146,6 +156,9 @@ std::vector<std::string> Split(const std::string str, const std::string match) {
 
 std::vector<std::string> SplitGreedy(const std::string str, const char c) {
   std::vector<std::string> result;
+  if (str.empty()) {
+    return result;
+  }
   unsigned int start = 0;
   for (unsigned int i = 0; i < str.length(); i++) {
     if (str[i] == c) {
@@ -165,6 +178,9 @@ std::vector<std::string> SplitGreedy(const std::string str, const char c) {
 std::vector<std::string> SplitGreedy(const std::string str,
                                      const std::string match) {
   std::vector<std::string> result;
+  if (str.empty()) {
+    return result;
+  }
   if (match.length() == 0 || str.length() <= match.length()) {
     return result;
   }
@@ -288,6 +304,31 @@ std::vector<std::string> ExtractTokens(std::string* str, char start, char end) {
   }
   *str = str_builder.ToString();
   return result;
+}
+
+AnyOf::AnyOf(const std::string& str) {
+  for (uint32 i = 0; i < str.length(); i++) {
+    candidates_.insert(str.at(i));
+  }
+}
+
+int AnyOf::size() const {
+  return candidates_.size();
+}
+
+bool AnyOf::has(char c) const {
+  return candidates_.find(c) != candidates_.end();
+}
+
+void AnyOf::add(char c) {
+  candidates_.insert(c);
+}
+
+void AnyOf::remove(char c) {
+  auto it = candidates_.find(c);
+  if (it != candidates_.end()) {
+    candidates_.erase(it);
+  }
 }
 
 }  // namespce StringUtils

@@ -1,14 +1,25 @@
 #ifndef UTILITY_STRINGS_H_
 #define UTILITY_STRINGS_H_
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
 #include <map>
+#include <set>
 #include <vector>
 #include <memory>
 
 namespace StringUtils {
+
+class AnyOf {
+ public:
+  AnyOf(const std::string& str);
+  int size() const;
+  bool has(char c) const;
+  void add(char c);
+  void remove(char c);
+ 
+ private:
+  std::set<char> candidates_;
+};
 
 bool IsCapitalLetter(const char c);
 bool IsLowerCaseLetter(const char c);
@@ -24,7 +35,8 @@ std::string Strip(std::string str, std::string match);
 bool StartWith(std::string str, std::string match);
 bool EndWith(std::string str, std::string match);
 
-std::vector<std::string> Split(const std::string str, const char c);
+std::vector<std::string> Split(const std::string str, char c);
+std::vector<std::string> Split(const std::string str, const AnyOf& char_set);
 std::vector<std::string> Split(const std::string str, const std::string match);
 
 std::vector<std::string> SplitGreedy(const std::string str, const char c);

@@ -11,11 +11,11 @@ IFLAGS=-Isrc/
 SRC_DIR=src
 OBJ_DIR=lib
 
-OBJ = $(OBJ_DIR)/Base/Utils.o \
-      $(OBJ_DIR)/Base/Log.o \
+OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Base/Path.o \
       $(OBJ_DIR)/Base/Ptr.o \
       $(OBJ_DIR)/Base/StringPiece.o \
+      $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/IO/File.o \
       $(OBJ_DIR)/IO/FileDescriptorInterface.o \
       $(OBJ_DIR)/IO/FileDescriptor.o \
@@ -23,7 +23,8 @@ OBJ = $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/IO/TextPrinter.o \
       $(OBJ_DIR)/Network/Socket.o \
       $(OBJ_DIR)/Network/SecuredSocket.o \
-      $(OBJ_DIR)/Utility/BufferedDataReader.o \
+      $(OBJ_DIR)/Utility/CleanUp.o \
+			$(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
       $(OBJ_DIR)/Utility/EventManager.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
