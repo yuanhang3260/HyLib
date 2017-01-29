@@ -58,7 +58,15 @@ SecuredSocket::SecuredSocket(const std::string hostname, const int port) :
   closed_ = false;
 }
 
-int SecuredSocket::Read(void* buffer, const int nbytes) const {
+int SecuredSocket::Close() {
+  if (!closed_ && ssl_connection_established_) {
+    BIO_free_all(bio);
+    SSL_CTX_free(ctx);
+  }
+  return -1;
+}
+
+int SecuredSocket::Read(void* buffer, int nbytes) const {
   if (ssl_connection_established_) {
     int nread = BIO_read(bio, buffer, nbytes);
     return nread;
@@ -66,22 +74,13 @@ int SecuredSocket::Read(void* buffer, const int nbytes) const {
   return -1;
 }
 
-int SecuredSocket::Write(const void* buffer, const int nbytes) const {
-  /* Send the request */
+int SecuredSocket::Write(const void* buffer, int nbytes) const {
+  // Send the request.
   if (ssl_connection_established_) {
     int nwrite = BIO_write(bio, buffer, nbytes);
     return nwrite;
   }
   return -1;
 }
-
-int SecuredSocket::Send(void* buffer, const int nbytes) const {
-  return Read(buffer, nbytes);
-}
-
-int SecuredSocket::Recv(const void* buffer, const int nbytes) const {
-  return Write(buffer, nbytes);
-}
-
 
 }  // namespace Network

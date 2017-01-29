@@ -53,7 +53,7 @@ class FixedThreadPool {
   std::mutex worker_mutex_;
   std::mutex queue_mutex_;
   std::condition_variable condition_;
-  
+
   // stop flag
   State state_;
 

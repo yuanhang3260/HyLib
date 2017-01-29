@@ -1,45 +1,53 @@
-#ifndef SOCKET_H__
-#define SOCKET_H__
+#ifndef NETWORK_SOCKET_H_
+#define NETWORK_SOCKET_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <string>
+#include <memory>
 
-#include "IO/FileDescriptorInterface.h"
+#include "Base/MacroUtils.h"
+#include "Network/SocketBase.h"
 
 namespace Network {
 
-class Socket : public IO::FileDescriptorInterface {
+class Socket : public SocketBase {
  public:
-  // construct server port
+  // Construct from fd.
   Socket() = default;
-  // construct client port
-  Socket(std::string hostname, int port) :
-    IO::FileDescriptorInterface(-1, true),
-    hostname_(hostname),
-    port_(port) {}
-  // construct from fd
-  Socket(const int fd, bool auto_close=true) :
-      IO::FileDescriptorInterface(fd, auto_close) {}
-  virtual ~Socket() {}
+  Socket(int fd);
+  virtual ~Socket();
 
-  static Socket* CreateClientSocket(std::string hostname, int port);
-  int ClientConnect(bool block=true);
+  int Read(void* buffer, int nbytes) const override;
+  int Write(const void* buf, int nbytes) const override;
+  int Close() override;
 
-  static Socket* CreateServerSocket(int port, bool block=true);
+ protected:
+  int fd_;
+};
 
-  virtual int Read(void* buffer, int nbytes) const;
-  virtual int Write(const void* buf, int nbytes) const;
-  virtual int Send(void* buffer, int nbytes) const;
-  virtual int Recv(const void* buffer, int nbytes) const;
+class ServerSocket : public Socket {
+ public:
+  ServerSocket(int port, bool block=true);
 
-  virtual bool secured() { return false; }
+  DEFINE_ACCESSOR(port, int);
+ 
+ private:
+  int port_;  // Server listen port.
+};
+
+class ClientSocket : public Socket {
+ public:
+  ClientSocket(const std::string& hostname, int port);
+
+  int Connect(bool block=true);
+
+  DEFINE_ACCESSOR(hostname, std::string);
+  DEFINE_ACCESSOR(port, int);
 
  private:
   std::string hostname_;
-  int port_;
+  int port_;  // Server port
 };
 
 }  // namespace Network
 
-#endif  /* __SOCKET_H__ */
+#endif  // NETWORK_SOCKET_H_

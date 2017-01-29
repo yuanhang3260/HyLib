@@ -1,5 +1,5 @@
-#ifndef __FILE_DESCRIPTOR_H__
-#define __FILE_DESCRIPTOR_H__
+#ifndef FILE_DESCRIPTOR_H_
+#define FILE_DESCRIPTOR_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,14 +18,18 @@ class FileDescriptor : public FileDescriptorInterface {
     READ_WRITE,
   };
 
-  FileDescriptor() = default;
-  FileDescriptor(std::string filename, MODE mode);
-  virtual ~FileDescriptor() {};
+  FileDescriptor(int fd);
+  FileDescriptor(const std::string& filename, MODE mode);
+  ~FileDescriptor() override {}
 
-  virtual int Read(void* buffer, const int nbytes) const;
-  virtual int Write(const void* buf, const int nbytes) const;
+  int Read(void* buffer, int nbytes) const override;
+  int Write(const void* buf, int nbytes) const override;
+  int Close() override;
+ 
+ public:
+  int fd_;
 };
 
 }  // namespace IO
 
-#endif  /* __FILE_DESCRIPTOR_H__ */
+#endif  // FILE_DESCRIPTOR_H_

@@ -23,6 +23,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/IO/FileSystemUtils.o \
       $(OBJ_DIR)/IO/TextPrinter.o \
       $(OBJ_DIR)/Network/Socket.o \
+      $(OBJ_DIR)/Network/SocketBase.o \
       $(OBJ_DIR)/Network/SecuredSocket.o \
       $(OBJ_DIR)/Strings/Split.o \
       $(OBJ_DIR)/Strings/Utils.o \
