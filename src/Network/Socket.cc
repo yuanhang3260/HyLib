@@ -16,7 +16,9 @@ Socket::Socket(int fd) {
   }
 }
 
-Socket::~Socket() {}
+Socket::~Socket() {
+  Close();
+}
 
 int Socket::Close() {
   if (!closed_ && fd_ > 0) {
@@ -30,7 +32,7 @@ int Socket::Close() {
   return -1;
 }
 
-int Socket::Read(void* buffer, int nbytes) const {
+int Socket::Read(void* buffer, int nbytes) {
   if (!closed_ && fd_ > 0) {
     return read(fd_, buffer, nbytes);
   }
@@ -50,7 +52,7 @@ ServerSocket::ServerSocket(int port, bool block) {
   struct sockaddr_in serv_addr;
 
   // Create socket
-  int fd_ = socket(AF_INET, SOCK_STREAM, 0);
+  fd_ = socket(AF_INET, SOCK_STREAM, 0);
  
   if (fd_ < 0) {
     LogERROR("Opening server socket\n");
@@ -70,12 +72,14 @@ ServerSocket::ServerSocket(int port, bool block) {
 
   /* Now bind the host address using bind() call.*/
   if (bind(fd_, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-    LogERROR("Failed to hostname binding server sockfd\n");
+    LogERROR("Failed to hostname binding server sockfd");
     return;
   }
 
   // Start listening
-  listen(fd_, 5);
+  if (listen(fd_, 5) != 0) {
+    LogERROR("Failed to listen on server socket");
+  }
   port_ = port;
   closed_ = false;
 }

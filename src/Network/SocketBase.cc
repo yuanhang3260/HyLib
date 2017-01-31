@@ -4,11 +4,11 @@ namespace net {
 
 SocketBase::~SocketBase() {}
 
-int SocketBase::Send(void* buffer, int nbytes) const {
+int SocketBase::Recv(void* buffer, int nbytes) {
   return Read(buffer, nbytes);
 }
 
-int SocketBase::Recv(const void* buffer, int nbytes) const {
+int SocketBase::Send(const void* buffer, int nbytes) const {
   return Write(buffer, nbytes);
 }
 

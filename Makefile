@@ -41,8 +41,8 @@ TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
 					$(OBJ_DIR)/Base/Utils_test.o \
 					$(OBJ_DIR)/IO/TextPrinter_test.o \
 					$(OBJ_DIR)/Utility/FileMonitor_test.o \
-          $(OBJ_DIR)/Utility/StringBuilder_test.o \
-          $(OBJ_DIR)/Strings/Utils_test.o \
+					$(OBJ_DIR)/Utility/StringBuilder_test.o \
+					$(OBJ_DIR)/Strings/Utils_test.o \
 					$(OBJ_DIR)/Strings/Split_test.o \
 
 TESTEXE = test/Base/Utils_test.out \

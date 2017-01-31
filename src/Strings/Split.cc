@@ -83,7 +83,7 @@ bool StringDelimiter::match(const std::string& str, int offset) const {
 }
 
 int StringDelimiter::length() const {
-  return 1;
+  return str_.length();
 }
 
 // AnyOf Delimiter.

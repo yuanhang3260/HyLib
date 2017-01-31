@@ -22,6 +22,10 @@ class SplitTest: public UnitTest {
     AssertEqual(6, re.size());
     AssertTrue(std::vector<std::string>{"", "a", "", "b", "c", "d"} == re);
 
+    re = Split(",a&&b,c&&d&&", "&&");
+    AssertEqual(4, re.size());
+    AssertTrue(std::vector<std::string>{",a", "b,c", "d", ""} == re);
+
     re = Split("abcd,", "");
     AssertEqual(5, re.size());
     AssertTrue(std::vector<std::string>{"a", "b", "c", "d", ","} == re);

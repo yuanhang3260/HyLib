@@ -19,7 +19,7 @@ class SecuredSocket : public IO::FileDescriptorInterface {
   SecuredSocket(const std::string hostname, const int port = 80);
   ~SecuredSocket() { Close(); }
 
-  int Read(void* buffer, int nbytes) const override;
+  int Read(void* buffer, int nbytes) override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;
 

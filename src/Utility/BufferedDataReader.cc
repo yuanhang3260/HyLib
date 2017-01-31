@@ -156,7 +156,7 @@ int BufferedDataReader::refill() {
   // for (int i = 0; i < readn; i++) {
   //   printf("%c", buffer[i]);
   // }
-  // printf("\n");
+  // printf("]\n");
   if (readn <= 0) {
     dataLen = 0;
   }

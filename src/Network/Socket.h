@@ -16,10 +16,10 @@ class Socket : public SocketBase {
   Socket(int fd);
   virtual ~Socket();
 
-  int fd() const { return fd_; }
-  int Read(void* buffer, int nbytes) const override;
-  int Write(const void* buf, int nbytes) const override;
-  int Close() override;
+  virtual int fd() const { return fd_; }
+  virtual int Read(void* buffer, int nbytes) override;
+  virtual int Write(const void* buf, int nbytes) const override;
+  virtual int Close() override;
 
  protected:
   int fd_;
