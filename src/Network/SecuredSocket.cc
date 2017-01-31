@@ -5,7 +5,7 @@
 
 #include "SecuredSocket.h"
 
-namespace Network {
+namespace net {
 
 SecuredSocket::SecuredSocket(const std::string hostname, const int port) :
     hostname_(hostname),
@@ -83,4 +83,4 @@ int SecuredSocket::Write(const void* buffer, int nbytes) const {
   return -1;
 }
 
-}  // namespace Network
+}  // namespace net

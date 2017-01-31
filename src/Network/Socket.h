@@ -7,7 +7,7 @@
 #include "Base/MacroUtils.h"
 #include "Network/SocketBase.h"
 
-namespace Network {
+namespace net {
 
 class Socket : public SocketBase {
  public:
@@ -16,6 +16,7 @@ class Socket : public SocketBase {
   Socket(int fd);
   virtual ~Socket();
 
+  int fd() const { return fd_; }
   int Read(void* buffer, int nbytes) const override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;
@@ -48,6 +49,6 @@ class ClientSocket : public Socket {
   int port_;  // Server port
 };
 
-}  // namespace Network
+}  // namespace net
 
 #endif  // NETWORK_SOCKET_H_

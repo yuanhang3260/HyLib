@@ -5,9 +5,9 @@
 #include <sys/socket.h>
 
 #include "Base/Log.h"
-#include "Socket.h"
+#include "Network/Socket.h"
 
-namespace Network {
+namespace net {
 
 Socket::Socket(int fd) {
   if (fd > 0) {
@@ -126,4 +126,4 @@ int ClientSocket::Connect(bool block) {
   return 0;
 }
 
-}  // namespace Network
+}  // namespace net

@@ -1,6 +1,6 @@
 #include "SocketBase.h"
 
-namespace Network {
+namespace net {
 
 SocketBase::~SocketBase() {}
 
@@ -12,4 +12,4 @@ int SocketBase::Recv(const void* buffer, int nbytes) const {
   return Write(buffer, nbytes);
 }
 
-}  // namespace Network
+}  // namespace net

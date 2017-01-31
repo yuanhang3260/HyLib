@@ -6,7 +6,7 @@
 
 #include "IO/FileDescriptorInterface.h"
 
-namespace Network {
+namespace net {
 
 class SocketBase : public IO::FileDescriptorInterface {
  public:
@@ -18,6 +18,6 @@ class SocketBase : public IO::FileDescriptorInterface {
   virtual int Recv(const void* buffer, int nbytes) const;
 };
 
-}  // namespace Network
+}  // namespace net
 
 #endif  // NETWORK_SOCKET_BASE_H_

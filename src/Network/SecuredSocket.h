@@ -12,7 +12,7 @@
 #include "Socket.h"
 #include "IO/FileDescriptorInterface.h"
 
-namespace Network {
+namespace net {
 
 class SecuredSocket : public IO::FileDescriptorInterface {
  public:
@@ -34,6 +34,6 @@ class SecuredSocket : public IO::FileDescriptorInterface {
   bool ssl_connection_established_ = false;
 };
 
-}  // namespace Network
+}  // namespace net
 
 #endif  // SECURED_SOCKET_H_
