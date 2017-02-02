@@ -56,7 +56,7 @@ private:
   // Re-fill the internal buffer
   int refill();
 
-  std::string readline_record_;
+  std::string readline_buffer_;
 
   // Check user arguments.
   bool checkArgs(char* buf, const int off, const int len);

@@ -107,7 +107,7 @@ int BufferedDataReader::ReadLine(std::string* str,
       //LogINFO("LOG: Refill in readline() ended.\n");
       if (re == 0) {
         // End of file (socket closed).
-        readline_record_.clear();
+        readline_buffer_.clear();
         LogINFO("EOF");
         eof = true;
         break;
@@ -115,10 +115,10 @@ int BufferedDataReader::ReadLine(std::string* str,
         // Errors:
         // For non-blocking sockets, returning EGAIN or EWOULDBLOCK on empty
         // receiving buffer is actually not an error. We need to store
-        // already read bytes into readline_record_ for future read.
+        // already read bytes into readline_buffer_ for future read.
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
           if (!str_builder.Empty()) {
-            readline_record_ += str_builder.ToString();
+            readline_buffer_ += str_builder.ToString();
           }
         }
         LogERROR("#### ERROR Read %d", errno);
@@ -135,8 +135,8 @@ int BufferedDataReader::ReadLine(std::string* str,
     }
   }
 
-  *str = readline_record_ + str_builder.ToString();
-  readline_record_.clear();
+  *str = readline_buffer_ + str_builder.ToString();
+  readline_buffer_.clear();
   if (got_line) {
     return str->length();
   } else if (eof && str->length() > 0) {
