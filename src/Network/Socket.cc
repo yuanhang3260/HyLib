@@ -47,6 +47,11 @@ int Socket::Write(const void* buf, int nbytes) const {
   return -1;
 }
 
+void Socket::SetNonBlock() {
+  int x = fcntl(fd_, F_GETFL, 0);
+  fcntl(fd_, F_SETFL, x | O_NONBLOCK);
+}
+
 // Server socket.
 ServerSocket::ServerSocket(int port, bool block) {
   struct sockaddr_in serv_addr;

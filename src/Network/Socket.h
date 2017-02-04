@@ -20,6 +20,7 @@ class Socket : public SocketBase {
   virtual int Read(void* buffer, int nbytes) override;
   virtual int Write(const void* buf, int nbytes) const override;
   virtual int Close() override;
+  void SetNonBlock();
 
  protected:
   int fd_;

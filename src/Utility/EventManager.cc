@@ -20,7 +20,6 @@ EventManager::EventManager(int thread_pool_size) {
 }
 
 EventManager::~EventManager() {
-  std::cout << "deleting event manager" << std::endl;
 }
 
 void EventManager::SetThreadPoolSize(size_t size) {
@@ -118,7 +117,6 @@ Epoll::Epoll() {
 }
 
 Epoll::~Epoll() {
-  std::cout << "deleting epoll" << std::endl;
   close(epollfd_);
 }
 
