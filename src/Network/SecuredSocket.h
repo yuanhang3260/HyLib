@@ -10,15 +10,16 @@
 #include "openssl/err.h"
 
 #include "Socket.h"
-#include "IO/FileDescriptorInterface.h"
+#include "Network/SocketBase.h"
 
 namespace net {
 
-class SecuredSocket : public IO::FileDescriptorInterface {
+class SecuredSocket : public SocketBase {
  public:
   SecuredSocket(const std::string hostname, const int port = 80);
   ~SecuredSocket() { Close(); }
 
+  int fd() const override;
   int Read(void* buffer, int nbytes) override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;

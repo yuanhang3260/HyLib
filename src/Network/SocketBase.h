@@ -14,6 +14,7 @@ class SocketBase : public IO::FileDescriptorInterface {
   SocketBase() = default;
   virtual ~SocketBase();
 
+  virtual int fd() const = 0;
   virtual int Recv(void* buffer, int nbytes);
   virtual int Send(const void* buffer, int nbytes) const;
 };

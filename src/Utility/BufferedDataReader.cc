@@ -95,12 +95,11 @@ int BufferedDataReader::Read(char* buf, int off, const int len) {
 }
 
 // Read one line from buffer.
-int BufferedDataReader::ReadLine(std::string* str,
-                                 const std::string& line_breaker) {
-  // Reach file end.
+BufferedDataReader::ReadLineResult
+BufferedDataReader::ReadLine(std::string* str,
+                             const std::string& line_breaker) {
   int re = 0;
 
-  bool got_line = false, eof = false;
   Utility::StringBuilder str_builder;
   while (true) {
     if (dataLen == 0 && (re = refill()) <= 0) {
@@ -109,8 +108,7 @@ int BufferedDataReader::ReadLine(std::string* str,
         // End of file (socket closed).
         readline_buffer_.clear();
         LogINFO("EOF");
-        eof = true;
-        break;
+        return PIPE_CLOSED;
       } else {
         // Errors:
         // For non-blocking sockets, returning EGAIN or EWOULDBLOCK on empty
@@ -120,9 +118,10 @@ int BufferedDataReader::ReadLine(std::string* str,
           if (!str_builder.Empty()) {
             readline_buffer_ += str_builder.ToString();
           }
+          return WAIT_FOR_PIPE;
         }
         LogERROR("#### ERROR Read %d", errno);
-        return -1;
+        return ERROR;
       }
     }
 
@@ -130,20 +129,13 @@ int BufferedDataReader::ReadLine(std::string* str,
     dataLen--;
     if (str_builder.EndWith(line_breaker)) {
       str_builder.Truncate(str_builder.Length() - line_breaker.length());
-      got_line = true;
       break;
     }
   }
 
   *str = readline_buffer_ + str_builder.ToString();
   readline_buffer_.clear();
-  if (got_line) {
-    return str->length();
-  } else if (eof && str->length() > 0) {
-    return str->length();
-  }
-
-  return -1;
+  return NEW_LINE;
 }
 
 // Re-fill the internal buffer

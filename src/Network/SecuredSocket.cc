@@ -58,6 +58,11 @@ SecuredSocket::SecuredSocket(const std::string hostname, const int port) :
   closed_ = false;
 }
 
+int SecuredSocket::fd() const {
+  // TODO
+  return 0;
+}
+
 int SecuredSocket::Close() {
   if (!closed_ && ssl_connection_established_) {
     BIO_free_all(bio);

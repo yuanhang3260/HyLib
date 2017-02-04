@@ -17,6 +17,8 @@ class Connection {
   FORBID_COPY_AND_ASSIGN(Connection);
   virtual ~Connection();
 
+  int fd() const;
+
  protected:
   std::unique_ptr<net::SocketBase> socket_;
   std::unique_ptr<Utility::BufferedDataReader> buf_reader_;
