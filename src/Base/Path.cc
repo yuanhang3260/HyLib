@@ -19,6 +19,9 @@ std::string JoinPathImpl(
   it++;
 
   for (; it != args_list.end(); it++) {
+    if (it->empty()) {
+      continue;
+    }
     auto str = Strings::Strip(it->as_string(), "/");
     result += ("/" + str);
   }

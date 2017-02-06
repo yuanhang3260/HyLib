@@ -101,6 +101,7 @@ BufferedDataReader::ReadLine(std::string* str,
   int re = 0;
 
   Utility::StringBuilder str_builder;
+  str_builder.Append(readline_buffer_);
   while (true) {
     if (dataLen == 0 && (re = refill()) <= 0) {
       //LogINFO("LOG: Refill in readline() ended.\n");
@@ -116,7 +117,7 @@ BufferedDataReader::ReadLine(std::string* str,
         // already read bytes into readline_buffer_ for future read.
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
           if (!str_builder.Empty()) {
-            readline_buffer_ += str_builder.ToString();
+            readline_buffer_ = str_builder.ToString();
           }
           return WAIT_FOR_PIPE;
         }
@@ -133,7 +134,7 @@ BufferedDataReader::ReadLine(std::string* str,
     }
   }
 
-  *str = readline_buffer_ + str_builder.ToString();
+  *str = str_builder.ToString();
   readline_buffer_.clear();
   return NEW_LINE;
 }

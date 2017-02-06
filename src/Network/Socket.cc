@@ -60,7 +60,7 @@ ServerSocket::ServerSocket(int port, bool block) {
   fd_ = socket(AF_INET, SOCK_STREAM, 0);
  
   if (fd_ < 0) {
-    LogERROR("Opening server socket\n");
+    LogERROR("Opening server socket");
     return;
   }
 
@@ -100,7 +100,7 @@ int ClientSocket::Connect(bool block) {
   fd_ = socket(AF_INET, SOCK_STREAM, 0);
 
   if (fd_ < 0) {
-    LogERROR("Faild to create client socket\n");
+    LogERROR("Faild to create client socket");
     return -1;
   }
 
@@ -110,7 +110,7 @@ int ClientSocket::Connect(bool block) {
   // get server ip
   server = gethostbyname(hostname_.c_str());
   if (server == NULL) {
-    LogERROR("Hostname %s not found\n", hostname_.c_str());
+    LogERROR("Hostname \"%s\" not found", hostname_.c_str());
     return -1;
   }
 
@@ -122,7 +122,7 @@ int ClientSocket::Connect(bool block) {
 
   /* Now connect to the server */
   if (connect(fd_, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-    LogERROR("Can't connect to %s\n", hostname_.c_str());
+    LogERROR("Can't connect to \"%s\"", hostname_.c_str());
     return -1;
   }
 
