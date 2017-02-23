@@ -69,10 +69,9 @@ std::string StunProber::ProbeNAT(const std::string& stun_server,
   struct sockaddr_in localaddr;
   bzero(&localaddr, sizeof(localaddr));
   localaddr.sin_family = AF_INET;
-  //inet_pton(AF_INET, "192.168.0.181", &localaddr.sin_addr);
   localaddr.sin_port = htons(local_port);
 
-  int re = bind(sockfd, (struct sockaddr *)&localaddr, sizeof(localaddr));
+  int re = bind(sockfd, (struct sockaddr*)&localaddr, sizeof(localaddr));
   if (re < 0) {
     LogERROR("Bind local port to socket %d failed", local_port, sockfd);
     return "";
@@ -124,7 +123,7 @@ std::string StunProber::ProbeNAT(const std::string& stun_server,
       attr_length = htons(*(uint16*)(buf + offset + 2));
       offset += 4;
       if (attr_type == 0x0001) {
-        // parse : port, IP.
+        // MAPPED-ADDRESS
         family = ntohs(*(byte*)(buf + offset + 1));
         printf("family = %x\n", family);
         // if (family != 0x01) {
@@ -132,11 +131,21 @@ std::string StunProber::ProbeNAT(const std::string& stun_server,
         //   continue;
         // }
         port = ntohs(*(uint16*)(buf + offset + 2));
-        //port ^= 0x2112;
         std::string result = std::to_string(buf[offset + 4]) + "." +
                              std::to_string(buf[offset + 5]) + "." +
                              std::to_string(buf[offset + 6]) + "." +
                              std::to_string(buf[offset + 7]) + ":" +
+                             std::to_string(port);
+        return result;
+      } else if (attr_type == 0x0020) {
+        // XOR-MAPPED-ADDRESS
+        family = ntohs(*(byte*)(buf + offset + 1));
+        port = ntohs(*(uint16*)(buf + offset + 2));
+        port ^= 0x2112;
+        std::string result = std::to_string(buf[offset + 4]^0x21) + "." +
+                             std::to_string(buf[offset + 5]^0x12) + "." +
+                             std::to_string(buf[offset + 6]^0xA4) + "." +
+                             std::to_string(buf[offset + 7]^0x42) + ":" +
                              std::to_string(port);
         return result;
       }
