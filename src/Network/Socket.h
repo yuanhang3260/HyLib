@@ -39,6 +39,7 @@ class ServerSocket : public Socket {
 class ClientSocket : public Socket {
  public:
   ClientSocket(const std::string& hostname, int port);
+  ClientSocket(int local_port, const std::string& hostname, int port);
 
   int Connect(bool block=true);
 
@@ -46,6 +47,7 @@ class ClientSocket : public Socket {
   DEFINE_ACCESSOR(port, int);
 
  private:
+  int local_port_ = -1;
   std::string hostname_;
   int port_;  // Server port
 };

@@ -95,6 +95,13 @@ ClientSocket::ClientSocket(const std::string& hostname, int port) :
     port_(port) {
 }
 
+ClientSocket::ClientSocket(int local_port,
+                           const std::string& hostname, int port) :
+    local_port_(local_port),
+    hostname_(hostname),
+    port_(port) {
+}
+
 int ClientSocket::Connect(bool block) {
   // Create socket
   fd_ = socket(AF_INET, SOCK_STREAM, 0);
@@ -102,6 +109,19 @@ int ClientSocket::Connect(bool block) {
   if (fd_ < 0) {
     LogERROR("Faild to create client socket");
     return -1;
+  }
+
+  if (local_port_) {
+    struct sockaddr_in localaddr;
+    bzero(&localaddr, sizeof(localaddr));
+    localaddr.sin_family = AF_INET;
+    localaddr.sin_port = htons(local_port_);
+
+    int re = bind(fd_, (struct sockaddr*)&localaddr, sizeof(localaddr));
+    if (re < 0) {
+      LogERROR("Bind local port to socket %d failed", local_port_, fd_);
+      return -1;
+    }
   }
 
   struct sockaddr_in server_addr;
