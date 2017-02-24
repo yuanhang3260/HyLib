@@ -77,7 +77,7 @@ ServerSocket::ServerSocket(int port, bool block) {
 
   /* Now bind the host address using bind() call.*/
   if (bind(fd_, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-    LogERROR("Failed to hostname binding server sockfd");
+    LogERROR("Failed to bind server sockfd");
     return;
   }
 
@@ -111,7 +111,7 @@ int ClientSocket::Connect(bool block) {
     return -1;
   }
 
-  if (local_port_) {
+  if (local_port_ > 0) {
     struct sockaddr_in localaddr;
     bzero(&localaddr, sizeof(localaddr));
     localaddr.sin_family = AF_INET;
