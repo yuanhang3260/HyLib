@@ -111,7 +111,7 @@ int ClientSocket::Connect(bool block) {
     return -1;
   }
 
-  if (local_port_) {
+  if (local_port_ > 0) {
     struct sockaddr_in localaddr;
     bzero(&localaddr, sizeof(localaddr));
     localaddr.sin_family = AF_INET;

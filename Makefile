@@ -35,6 +35,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/EventManager.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
       $(OBJ_DIR)/Utility/StringBuilder.o \
+      $(OBJ_DIR)/Utility/Timer.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
