@@ -30,7 +30,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Strings/Split.o \
       $(OBJ_DIR)/Strings/Utils.o \
       $(OBJ_DIR)/Utility/CleanUp.o \
-			$(OBJ_DIR)/Utility/BufferedDataReader.o \
+      $(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
       $(OBJ_DIR)/Utility/EventManager.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
@@ -39,22 +39,22 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
-					$(OBJ_DIR)/Base/Singleton_test.o \
-					$(OBJ_DIR)/Base/Utils_test.o \
-					$(OBJ_DIR)/IO/TextPrinter_test.o \
-					$(OBJ_DIR)/Utility/FileMonitor_test.o \
-					$(OBJ_DIR)/Utility/StringBuilder_test.o \
-					$(OBJ_DIR)/Strings/Utils_test.o \
-					$(OBJ_DIR)/Strings/Split_test.o \
+          $(OBJ_DIR)/Base/Singleton_test.o \
+          $(OBJ_DIR)/Base/Utils_test.o \
+          $(OBJ_DIR)/IO/TextPrinter_test.o \
+          $(OBJ_DIR)/Utility/FileMonitor_test.o \
+          $(OBJ_DIR)/Utility/StringBuilder_test.o \
+          $(OBJ_DIR)/Strings/Split_test.o \
+          $(OBJ_DIR)/Strings/Utils_test.o \
 
 TESTEXE = test/Base/Utils_test.out \
-					test/Base/Singleton_test.out \
-					test/Base/Path_test.out \
-					test/Utility/TextPrinter_test.out \
-					test/Utility/FileMonitor_test.out \
-					test/Utility/StringBuilder_test.out \
-					test/Strings/Split_test.out \
-					test/Strings/Utils_test.out \
+          test/Base/Singleton_test.out \
+          test/Base/Path_test.out \
+          test/Utility/TextPrinter_test.out \
+          test/Utility/FileMonitor_test.out \
+          test/Utility/StringBuilder_test.out \
+          test/Strings/Split_test.out \
+          test/Strings/Utils_test.out \
 
 all: pre_build library
 

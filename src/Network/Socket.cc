@@ -77,7 +77,7 @@ ServerSocket::ServerSocket(int port, bool block) {
 
   /* Now bind the host address using bind() call.*/
   if (bind(fd_, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-    LogERROR("Failed to hostname binding server sockfd");
+    LogERROR("Failed to bind server sockfd");
     return;
   }
 
