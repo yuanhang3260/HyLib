@@ -16,6 +16,7 @@ bool Timer::Start() {
       LogERROR("Timer state is not STOPPED, can't Start");
       return false;
     }
+    time_out_ = original_time_out_;
     state_ = STARTED;
   }
   runner_ = std::thread(std::bind(&Timer::WaitForTimeout, this));
@@ -71,14 +72,7 @@ void Timer::WaitForTimeout() {
 bool Timer::Stop() {
   {
     std::unique_lock<std::mutex> lock(mutex_);
-    if (state_ == STOPPED) {
-      return true;
-    }
-    // If current state is PAUSED, immediately stop the timer and refresh time
-    // out to its origin.
-    if (state_ == PAUSED) {
-      time_out_ = original_time_out_;
-      state_ = STOPPED;
+    if (state_ == STOPPED || PAUSED) {
       return true;
     }
     state_ = TO_STOP;
