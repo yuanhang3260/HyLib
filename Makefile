@@ -67,10 +67,10 @@ pre_build:
 	mkdir -p $(OBJ_DIR)/Base $(OBJ_DIR)/IO $(OBJ_DIR)/Network $(OBJ_DIR)/Utility $(OBJ_DIR)/Strings
 	mkdir -p $(TEST_DIR)/Base $(TEST_DIR)/IO $(TEST_DIR)/Network $(TEST_DIR)/Utility $(TEST_DIR)/Strings
 
-library: $(OBJ)
+library: pre_build $(OBJ)
 	ar cr libhy.a $(OBJ)
 
-test: $(TESTEXE)
+test: pre_build $(TESTEXE)
 
 $(TESTEXE): $(TESTOBJ) library
 

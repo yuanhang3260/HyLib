@@ -28,6 +28,21 @@ class Timer {
     PAUSED,
   };
 
+  // Timer state machine:
+  //
+  //          Start() / Restart()           Resume() / Restart()
+  // STOPPED --------------------> STARTED <-------------------- PAUSED -->
+  //    ^                           |   |                           ^      |
+  //    |                           |   |                           |      |
+  //    |                           |   |                           |      |
+  //     <-------- TO_STOP <--------     --------> TO_PAUSE ------->       |
+  //        wake      ^       Stop()      Pause()             wake         |
+  //                  |                                                    |
+  //                  |                                                    |
+  //                   <---------------- <---------------- <---------------
+  //                                          Stop()
+  //
+
   template <class Rep, class Period>
   Timer(const std::chrono::duration<Rep, Period>& rel_time,
         std::function<void()> cb) :
@@ -38,11 +53,15 @@ class Timer {
 
   ~Timer();
 
+  // Start the timer, will only succeed when timer is in state STOPPED.
   bool Start();
   bool Restart();
 
   bool Stop();
+
+  // Pause the timer, will only succeed when timer is in state STARTED.
   bool Pause();
+  // Resume the timer, will only succeed when timer is in state PAUSED.
   bool Resume();
 
   void SetRepeat(bool repeat);

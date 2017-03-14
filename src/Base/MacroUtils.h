@@ -2,6 +2,7 @@
 #define MACRO_UTILS
 
 #include <stdexcept>
+#include "Base/Log.h"
 
 #define DEFINE_GETTER(FIELD_NAME, TYPE) \
   TYPE FIELD_NAME() const { return FIELD_NAME##_; } \
@@ -39,7 +40,9 @@
 
 #define CHECK(CONDITION, ERR_MSG) \
   if (!(CONDITION)) { \
-    throw std::runtime_error(ERR_MSG); \
+    LogFATAL(("SANITY_CHECK failed: " + std::string(ERR_MSG)).c_str()); \
   } \
+
+#define SANITY_CHECK(CONDITION, ERR_MSG) CHECK(CONDITION, ERR_MSG)
 
 #endif /* MACRO_UTILS */
