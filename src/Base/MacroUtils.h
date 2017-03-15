@@ -38,11 +38,13 @@
   TypeName(const TypeName&) = delete; \
   TypeName& operator=(const TypeName&) = delete; \
 
-#define CHECK(CONDITION, ERR_MSG) \
+#define CHECK(CONDITION, ERR_MSG, ...) \
   if (!(CONDITION)) { \
-    LogFATAL(("SANITY_CHECK failed: " + std::string(ERR_MSG)).c_str()); \
+    LogFATAL(("SANITY_CHECK failed: " + (std::string)ERR_MSG).c_str(),  \
+             ## __VA_ARGS__);  \
   } \
 
-#define SANITY_CHECK(CONDITION, ERR_MSG) CHECK(CONDITION, ERR_MSG)
+#define SANITY_CHECK(CONDITION, ERR_MSG, ...)  \
+  CHECK(CONDITION, ERR_MSG, ## __VA_ARGS__)
 
 #endif /* MACRO_UTILS */
