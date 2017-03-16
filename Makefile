@@ -32,8 +32,10 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/CleanUp.o \
       $(OBJ_DIR)/Utility/BufferedDataReader.o \
       $(OBJ_DIR)/Utility/BufferedDataWriter.o \
+      $(OBJ_DIR)/Utility/BufferInterface.o \
       $(OBJ_DIR)/Utility/EventManager.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
+      $(OBJ_DIR)/Utility/InfiniteBuffer.o \
       $(OBJ_DIR)/Utility/RingBuffer.o \
       $(OBJ_DIR)/Utility/StringBuilder.o \
       $(OBJ_DIR)/Utility/Timer.o \
@@ -46,6 +48,7 @@ TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
           $(OBJ_DIR)/Strings/Split_test.o \
           $(OBJ_DIR)/Strings/Utils_test.o \
           $(OBJ_DIR)/Utility/FileMonitor_test.o \
+          $(OBJ_DIR)/Utility/InfiniteBuffer_test.o \
           $(OBJ_DIR)/Utility/RingBuffer_test.o \
           $(OBJ_DIR)/Utility/StringBuilder_test.o \
           $(OBJ_DIR)/Utility/Timer_test.o \
@@ -57,6 +60,7 @@ TESTEXE = test/Base/Path_test.out \
           test/Strings/Split_test.out \
           test/Strings/Utils_test.out \
           test/Utility/FileMonitor_test.out \
+          test/Utility/InfiniteBuffer_test.out \
           test/Utility/RingBuffer_test.out \
           test/Utility/StringBuilder_test.out \
           test/Utility/Timer_test.out \

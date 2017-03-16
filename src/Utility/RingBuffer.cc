@@ -10,11 +10,11 @@ namespace {
 uint32 kDefaultSize = 4096;
 }
 
-RingBuffer::RingBuffer() : capacity_(kDefaultSize) {
+RingBuffer::RingBuffer() : BufferInterface(kDefaultSize) {
   buffer_ = new byte[capacity_];
 }
 
-RingBuffer::RingBuffer(uint32 capacity) : capacity_(capacity) {
+RingBuffer::RingBuffer(uint32 capacity) : BufferInterface(capacity) {
   buffer_ = new byte[capacity_];
 }
 

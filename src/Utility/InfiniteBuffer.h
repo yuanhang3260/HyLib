@@ -1,17 +1,17 @@
-#ifndef UTILITY_RING_BUFFER_
-#define UTILITY_RING_BUFFER_
+#ifndef UTILITY_INFINITE_BUFFER_
+#define UTILITY_INFINITE_BUFFER_
 
 #include "Base/BaseTypes.h"
 #include "Utility/BufferInterface.h"
 
 namespace Utility {
 
-// Circular buffer which has a fixed capacity. This class is not thread-safe.
-class RingBuffer : public BufferInterface {
+// Infinite buffer automatically increases. This class is not thread-safe.
+class InfiniteBuffer : public BufferInterface {
  public:
-  RingBuffer();
-  explicit RingBuffer(uint32 capacity);
-  ~RingBuffer();
+  InfiniteBuffer();
+  explicit InfiniteBuffer(uint32 init_capacity);
+  ~InfiniteBuffer();
 
   // Write data into buffer. Return actual size written.
   uint32 Write(const byte* data, uint32 size) override;
@@ -30,4 +30,4 @@ class RingBuffer : public BufferInterface {
 
 }
 
-#endif  // UTILITY_RING_BUFFER_
+#endif  // UTILITY_INFINITE_BUFFER_
