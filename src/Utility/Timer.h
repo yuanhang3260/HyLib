@@ -22,10 +22,10 @@ class Timer {
  public:
   enum State {
     STARTED,
-    TO_STOP,
+    RESTARTED,
     STOPPED,
-    TO_PAUSE,
     PAUSED,
+    TERMINATED,
   };
 
   // Timer state machine:
@@ -49,6 +49,7 @@ class Timer {
       time_out_(std::chrono::duration_cast<std::chrono::nanoseconds>(rel_time)),
       original_time_out_(time_out_),          
       callback_(std::move(cb)) {
+    runner_ = std::thread(std::bind(&Timer::WaitForTimeout, this));
   }
 
   ~Timer();
@@ -76,7 +77,8 @@ class Timer {
   std::function<void()> callback_;
 
   std::mutex mutex_;
-  std::condition_variable cv_;
+  std::condition_variable run_cv_;
+  std::condition_variable timeout_cv_;
   State state_ = STOPPED;
 
   std::thread runner_;

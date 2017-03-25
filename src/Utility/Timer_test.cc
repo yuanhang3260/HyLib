@@ -31,9 +31,9 @@ class TimerTest: public UnitTest {
     timer_.Start();
     usleep(1 * 1000 * 1000);  // 1s
 
-    printf("Pause for 2s\n");
+    printf("Pause for 3s\n");
     timer_.Pause();
-    usleep(2 * 1000 * 1000);
+    usleep(3 * 1000 * 1000);
 
     printf("Resume\n");
     timer_.Resume();
@@ -49,7 +49,9 @@ class TimerTest: public UnitTest {
       timer_.Restart();
     }
 
-    usleep(2 * 1000 * 1000);
+    usleep(5 * 1000 * 1000);
+    timer_.Start();
+    usleep(5 * 1000 * 1000);
   }
 
   void test_Repeat() {
