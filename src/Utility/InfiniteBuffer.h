@@ -22,6 +22,8 @@ class InfiniteBuffer : public BufferInterface {
   void Clear() override;
 
  private:
+  void PrintBuffer() const;
+
   byte* buffer_ = nullptr;
 
   uint32 start_ = 0;

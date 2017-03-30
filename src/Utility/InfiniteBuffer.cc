@@ -35,24 +35,25 @@ uint32 InfiniteBuffer::Write(const byte* data, uint32 size) {
     return 0;
   }
 
-  if (size > capacity_ - size_) {
+  if (end_ + size > capacity_) {
     // Double the buffer space.
-    auto new_buffer_size = Utils::Max(size + size_, capacity_ * 2);
+    uint32 new_buffer_size = Utils::Max(size_ + size, capacity_ * 2);
     byte* new_buffer = new byte[new_buffer_size];
     if (!new_buffer) {
       LogERROR("Expand buffer failed");
       return 0;
     }
-    memcpy(new_buffer, buffer_, size_);
+    memcpy(new_buffer, buffer_ + start_, size_);
     delete[] buffer_;
     buffer_ = new_buffer;
     capacity_ = new_buffer_size;
     start_ = 0;
+    end_ = size_;
   }
 
-  memcpy(buffer_ + size_, data, size);
+  memcpy(buffer_ + end_, data, size);
   size_ += size;
-  end_  = size_;
+  end_  += size;
   return size;
 }
 
@@ -80,9 +81,17 @@ void InfiniteBuffer::Clear() {
   }
 
   buffer_ = nullptr;
+  capacity_ = 0;
   size_ = 0;
   start_ = 0;
   end_ = 0;
+}
+
+void InfiniteBuffer::PrintBuffer() const {
+  for (uint32 i = 0; i < size_; i++) {
+    printf("%c", buffer_[start_ + i]);
+  }
+  printf("\n");
 }
 
 }  // namsspace Utility

@@ -53,7 +53,7 @@ void FixedThreadPool::ThreadWorker() {
     {
       std::unique_lock<std::mutex> lock(queue_mutex_);
       condition_.wait(lock,
-                     [this] { return state_ == STOP || !tasks_.empty(); });
+                      [this] { return state_ == STOP || !tasks_.empty(); });
       if (state_ == STOP && tasks_.empty()) {
         return;
       }

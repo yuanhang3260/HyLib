@@ -40,6 +40,7 @@ class InfiniteBufferTest: public UnitTest {
   bool DataIsCorrect() {
     for (uint32 i = 0; i < kTestDataSize; i++) {
       if (data_[i] != receiver_[i]) {
+        printf("i = %d\n", i);
         return false;
       }
     }
@@ -48,14 +49,15 @@ class InfiniteBufferTest: public UnitTest {
 
   void test_LoadTest() {
     uint32 readn = 0, writen = 0;
-    auto indexes = Utils::RandomListFromRange(1, kTestDataSize - 1, 511);
+    auto indexes = Utils::RandomListFromRange(1, kTestDataSize - 1,
+                                              kTestDataSize / kBufferSize - 1);
     indexes.insert(indexes.begin(), 0);
     indexes.insert(indexes.end(), kTestDataSize);
     std::sort(indexes.begin(), indexes.end());
 
     uint32 write_times = 0;
-    while (readn < kTestDataSize || write_times < 512) {
-      if (writen < kTestDataSize) {
+    while (readn < kTestDataSize || write_times < kTestDataSize / kBufferSize) {
+      if (DiceToWrite() && writen < kTestDataSize) {
         uint32 writen_this_time = buffer_.Write(
             data_ + indexes[write_times],
             indexes[write_times + 1] - indexes[write_times]);
@@ -63,7 +65,7 @@ class InfiniteBufferTest: public UnitTest {
         write_times++;
         //printf("writen = %d\n", writen);
       } else {
-        uint32 to_read = Utils::RandomNumber(kBufferSize);
+        uint32 to_read = Utils::RandomNumber(kBufferSize * 2);
         uint32 read_this_time = buffer_.Read(receiver_ + readn, to_read);
         readn += read_this_time;
         //printf("readn = %d\n", readn);
