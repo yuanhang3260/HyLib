@@ -38,6 +38,8 @@ class Utils {
   static int RandomNumber();
   static int RandomNumber(int range);  // random int from [0, range)
 
+  static double RandomFloat();
+
   static void PrintMemoryBytes(const char* buf, int size);
   static void PrintMemoryChars(const char* buf, int size);
 

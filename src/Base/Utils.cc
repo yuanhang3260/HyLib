@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -26,6 +27,14 @@ int Utils::RandomNumber(int range) {
     InitRandomSeed();
   }
   return rand() % range;
+}
+
+double Utils::RandomFloat() {
+  if (!rand_seed_init_) {
+    InitRandomSeed();
+  }
+
+  return rand() * 1.0 / RAND_MAX;
 }
 
 std::vector<int> Utils::RandomListFromRange(int start, int end) {
