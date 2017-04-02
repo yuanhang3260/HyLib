@@ -24,7 +24,7 @@ class BufferInterface {
   uint32 capacity() const { return capacity_; }
   uint32 size() const { return size_; }
   bool empty() const { return size_ == 0; }
-  bool full() const { return size_ == capacity_; }
+  virtual bool full() const { return size_ == capacity_; }
 
  protected:
   // Total capacity.

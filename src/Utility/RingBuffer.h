@@ -21,6 +21,8 @@ class RingBuffer : public BufferInterface {
 
   void Clear() override;
 
+  uint32 free_space() { return capacity_ - size_; }
+
  private:
   byte* buffer_ = nullptr;
 

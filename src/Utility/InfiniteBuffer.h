@@ -1,6 +1,8 @@
 #ifndef UTILITY_INFINITE_BUFFER_
 #define UTILITY_INFINITE_BUFFER_
 
+#include <climits>
+
 #include "Base/BaseTypes.h"
 #include "Utility/BufferInterface.h"
 
@@ -20,6 +22,9 @@ class InfiniteBuffer : public BufferInterface {
   uint32 Read(byte* buf, uint32 size) override;
 
   void Clear() override;
+
+  bool full() const override { return false; }
+  uint32 free_space() { return ULONG_MAX; }
 
  private:
   void PrintBuffer() const;
