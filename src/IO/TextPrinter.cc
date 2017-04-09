@@ -3,8 +3,8 @@
 #include <fcntl.h>
 
 #include "TextPrinter.h"
-#include "../Utility/BufferedDataWriter.h"
-#include "../Utility/StringBuilder.h"
+#include "Strings/StringBuilder.h"
+#include "Utility/BufferedDataWriter.h"
 
 
 namespace IO {
@@ -96,7 +96,7 @@ int TextPrinterImpl::Print_Impl(
 
   int printed_size = 0;
   int matching = 0;
-  Utility::StringBuilder strbuf;
+  Strings::StringBuilder strbuf;
   for (unsigned int i = 0; i < content.length(); i++) {
     // Matching or not
     if (!matching) {

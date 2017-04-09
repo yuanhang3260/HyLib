@@ -2,11 +2,14 @@
 #define STRINGS_UTILS_H_
 
 #include <functional>
+#include <initializer_list>
 #include <string>
 #include <map>
 #include <set>
 #include <vector>
 #include <memory>
+
+#include "Strings/StringPiece.h"
 
 namespace Strings {
 
@@ -26,7 +29,12 @@ bool EndWith(const std::string& str, const std::string& match);
 
 bool IsSingleWord(const std::string str);
 
-std::string StrCat(std::vector<std::string>, unsigned int start);
+std::string StrCatImpl(std::initializer_list<StringPiece> arg_list);
+
+template <typename... T>
+std::string StrCat(const T&... args) {
+  return StrCatImpl({args...});
+}
 
 std::string IntToHexString(int i);
 

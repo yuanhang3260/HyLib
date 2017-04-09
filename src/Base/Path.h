@@ -5,7 +5,7 @@
 #include <vector>
 #include <initializer_list>
 
-#include "Base/StringPiece.h"
+#include "Strings/StringPiece.h"
 
 namespace Path {
 

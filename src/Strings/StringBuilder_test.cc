@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv) {
   {
-    Utility::StringBuilder strBuilder;
+    Strings::StringBuilder strBuilder;
     strBuilder.Append('a');
     if (strBuilder.ToString() != "a") {
       fprintf(stderr, "ERROR: Expect \"a\", Actual \"%s\"\n",
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
   }
 
   {
-    Utility::StringBuilder strBuilder(3);
+    Strings::StringBuilder strBuilder(3);
     strBuilder.Append("aaa");
     if (strBuilder.ToString() != "aaa" || strBuilder.size() != 3) {
       fprintf(stderr,
@@ -107,5 +107,5 @@ int main(int argc, char** argv) {
     }
   }
 
-  printf("Passed ^_^\n");
+  printf("\033[2;32mPassed ^_^\033[0m\n");
 }

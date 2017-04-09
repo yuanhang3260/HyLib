@@ -263,7 +263,7 @@ void test_GetToken() {
   }
 
 
-  std::cout << "Passed ^_^" << std::endl;
+  printf("\033[2;32mPassed ^_^\033[0m\n");
 }
 
 }  // namespace Strings

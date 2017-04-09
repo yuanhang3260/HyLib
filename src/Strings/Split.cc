@@ -3,7 +3,7 @@
 #include "Base/BaseTypes.h"
 #include "Base/Utils.h"
 #include "Strings/Split.h"
-#include "Utility/StringBuilder.h"
+#include "Strings/StringBuilder.h"
 
 namespace Strings {
 

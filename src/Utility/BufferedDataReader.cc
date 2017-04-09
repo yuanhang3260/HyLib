@@ -9,7 +9,7 @@
 
 #include "Base/Log.h"
 #include "BufferedDataReader.h"
-#include "Utility/StringBuilder.h"
+#include "Strings/StringBuilder.h"
 
 namespace Utility {
 
@@ -100,7 +100,7 @@ BufferedDataReader::ReadLine(std::string* str,
                              const std::string& line_breaker) {
   int re = 0;
 
-  Utility::StringBuilder str_builder;
+  Strings::StringBuilder str_builder;
   str_builder.Append(readline_buffer_);
   while (true) {
     if (dataLen == 0 && (re = refill()) <= 0) {

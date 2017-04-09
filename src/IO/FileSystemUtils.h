@@ -8,7 +8,7 @@
 #include <map>
 #include <initializer_list>
 
-#include "Base/StringPiece.h"
+#include "Strings/StringPiece.h"
 
 namespace FileSystem {
 

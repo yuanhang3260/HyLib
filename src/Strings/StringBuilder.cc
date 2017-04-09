@@ -5,7 +5,7 @@
 
 #include "StringBuilder.h"
 
-namespace Utility {
+namespace Strings {
 
 StringBuilder::StringBuilder() : buf_size_(DEFAULT_SIZE) {
   buf_ = new char[buf_size_];
@@ -110,8 +110,8 @@ void StringBuilder::Append(const char* str, const int size) {
   }
 }
 
-void StringBuilder::Append(std::string str) {
-  Append(str.c_str(), str.length());
+void StringBuilder::Append(const StringPiece& str) {
+  Append(str.data(), str.size());
 }
 
-}  // namespace Utility
+}  // namespace Strings

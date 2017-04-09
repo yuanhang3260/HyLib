@@ -4,8 +4,9 @@
 #include <string>
 
 #include "Base/BaseTypes.h"
+#include "Strings/StringPiece.h"
 
-namespace Utility {
+namespace Strings {
 
 class StringBuilder {
  public:
@@ -29,7 +30,7 @@ class StringBuilder {
   void Truncate(const int size);
   void Append(const char c);
   void Append(const char* str, const int size);
-  void Append(std::string str);
+  void Append(const StringPiece& str);
 
  private:
   static const int DEFAULT_SIZE = 128;

@@ -15,7 +15,6 @@ TEST_DIR=test
 OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Base/Path.o \
       $(OBJ_DIR)/Base/Ptr.o \
-      $(OBJ_DIR)/Base/StringPiece.o \
       $(OBJ_DIR)/Base/Utils.o \
       $(OBJ_DIR)/IO/File.o \
       $(OBJ_DIR)/IO/FileDescriptorInterface.o \
@@ -28,6 +27,8 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Network/SecuredSocket.o \
       $(OBJ_DIR)/Network/StunProber.o \
       $(OBJ_DIR)/Strings/Split.o \
+      $(OBJ_DIR)/Strings/StringBuilder.o \
+      $(OBJ_DIR)/Strings/StringPiece.o \
       $(OBJ_DIR)/Strings/Utils.o \
       $(OBJ_DIR)/Utility/CleanUp.o \
       $(OBJ_DIR)/Utility/BufferedDataReader.o \
@@ -37,7 +38,6 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
       $(OBJ_DIR)/Utility/InfiniteBuffer.o \
       $(OBJ_DIR)/Utility/RingBuffer.o \
-      $(OBJ_DIR)/Utility/StringBuilder.o \
       $(OBJ_DIR)/Utility/Timer.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
@@ -45,24 +45,24 @@ TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
           $(OBJ_DIR)/Base/Singleton_test.o \
           $(OBJ_DIR)/Base/Utils_test.o \
           $(OBJ_DIR)/IO/TextPrinter_test.o \
+          $(OBJ_DIR)/Strings/StringBuilder_test.o \
           $(OBJ_DIR)/Strings/Split_test.o \
           $(OBJ_DIR)/Strings/Utils_test.o \
           $(OBJ_DIR)/Utility/FileMonitor_test.o \
           $(OBJ_DIR)/Utility/InfiniteBuffer_test.o \
           $(OBJ_DIR)/Utility/RingBuffer_test.o \
-          $(OBJ_DIR)/Utility/StringBuilder_test.o \
           $(OBJ_DIR)/Utility/Timer_test.o \
 
 TESTEXE = test/Base/Path_test.out \
           test/Base/Singleton_test.out \
           test/Base/Utils_test.out \
           test/IO/TextPrinter_test.out \
+          test/Strings/StringBuilder_test.out \
           test/Strings/Split_test.out \
           test/Strings/Utils_test.out \
           test/Utility/FileMonitor_test.out \
           test/Utility/InfiniteBuffer_test.out \
           test/Utility/RingBuffer_test.out \
-          test/Utility/StringBuilder_test.out \
           test/Utility/Timer_test.out \
 
 all: pre_build library

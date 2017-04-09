@@ -2,8 +2,8 @@
 
 #include "Base/BaseTypes.h"
 #include "Base/Utils.h"
+#include "Strings/StringBuilder.h"
 #include "Strings/Utils.h"
-#include "Utility/StringBuilder.h"
 
 namespace Strings {
 
@@ -122,12 +122,12 @@ bool IsSingleWord(const std::string& str) {
   return str.find(' ') == std::string::npos;
 }
 
-std::string StrCat(std::vector<std::string> v, unsigned int start = 0) {
-  std::string result = "";
-  for (unsigned int i = start; i < v.size(); i++) {
-    result += v[i];
+std::string StrCatImpl(std::initializer_list<StringPiece> arg_list) {
+  StringBuilder str_builder;
+  for (const auto& ele : arg_list) {
+    str_builder.Append(ele);
   }
-  return result;
+  return str_builder.ToString();
 }
 
 std::string IntToHexString(int i) {
@@ -177,7 +177,7 @@ int FindLastMatch(const std::string& str, const std::string& match) {
 std::string ReplaceWith(const std::string& str,
                         const std::string& old,
                         const std::string& rep) {
-  Utility::StringBuilder str_builder;
+  Strings::StringBuilder str_builder;
   for (unsigned int i = 0; i <= str.length() - old.length(); i++) {
     if (str.substr(i, old.length()) == old) {
       str_builder.Append(rep);
@@ -190,7 +190,7 @@ std::string ReplaceWith(const std::string& str,
 }
 
 std::vector<std::string> ExtractTokens(std::string* str, char start, char end) {
-  Utility::StringBuilder str_builder;
+  Strings::StringBuilder str_builder;
   std::vector<std::string> result;
   bool matching = false;
   int matching_start = 0;
