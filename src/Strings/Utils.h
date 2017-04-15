@@ -36,6 +36,9 @@ std::string StrCat(const T&... args) {
   return StrCatImpl({args...});
 }
 
+std::string Join(const std::vector<std::string>& list,
+                 const std::string& seperator);
+
 std::string IntToHexString(int i);
 
 int FindFirstMatch(const std::string& str, const std::string& match);

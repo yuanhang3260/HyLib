@@ -190,7 +190,7 @@ std::string ReplaceWith(const std::string& str,
 }
 
 std::vector<std::string> ExtractTokens(std::string* str, char start, char end) {
-  Strings::StringBuilder str_builder;
+  StringBuilder str_builder;
   std::vector<std::string> result;
   bool matching = false;
   int matching_start = 0;
@@ -213,6 +213,22 @@ std::vector<std::string> ExtractTokens(std::string* str, char start, char end) {
   }
   *str = str_builder.ToString();
   return result;
+}
+
+std::string Join(const std::vector<std::string>& list,
+                 const std::string& seperator) {
+  if (list.empty()) {
+    return "";
+  }
+
+  StringBuilder str_builder;
+  uint32 size = list.size();
+  for (uint32 i = 0; i < size - 1; i++) {
+    str_builder.Append(list.at(i));
+    str_builder.Append(seperator);
+  }
+  str_builder.Append(list.at(size - 1));
+  return str_builder.ToString();
 }
 
 }  // namespce Strings
