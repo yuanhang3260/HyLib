@@ -38,6 +38,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/FileMonitor.o \
       $(OBJ_DIR)/Utility/InfiniteBuffer.o \
       $(OBJ_DIR)/Utility/RingBuffer.o \
+      $(OBJ_DIR)/Utility/StopWatch.o \
       $(OBJ_DIR)/Utility/Timer.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
