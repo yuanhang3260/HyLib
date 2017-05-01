@@ -53,5 +53,9 @@ bool StopWatch::Reset() {
   return true;
 }
 
+std::chrono::nanoseconds StopWatch::elapsed_time() {
+  std::unique_lock<std::mutex> lock(mutex_);
+  return elapsed_time_;
+}
 
 }  // namespace Utility
