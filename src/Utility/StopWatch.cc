@@ -44,7 +44,7 @@ bool StopWatch::Resume() {
 
 bool StopWatch::Reset() {
   std::unique_lock<std::mutex> lock(mutex_);
-  if (state_ != PAUSED) {
+  if (state_ != PAUSED && state_ != RUNNING) {
     return false;
   }
 

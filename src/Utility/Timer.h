@@ -57,6 +57,18 @@ class Timer {
   // Start the timer, will only succeed when timer is in state STOPPED.
   bool Start();
   bool Restart();
+  template <class Rep, class Period>
+  bool Restart(const std::chrono::duration<Rep, Period>& new_time_out) {
+    {
+      std::unique_lock<std::mutex> lock(mutex_);
+      original_time_out_ = new_time_out;
+      time_out_ = original_time_out_;
+      state_ = RESTARTED;
+    }
+    run_cv_.notify_one();
+    timeout_cv_.notify_one();
+    return true;
+  }
 
   bool Stop();
 
