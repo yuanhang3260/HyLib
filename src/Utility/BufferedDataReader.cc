@@ -108,7 +108,7 @@ BufferedDataReader::ReadLine(std::string* str,
       if (re == 0) {
         // End of file (socket closed).
         readline_buffer_.clear();
-        LogINFO("EOF");
+        // LogINFO("EOF");
         return PIPE_CLOSED;
       } else {
         // Errors:

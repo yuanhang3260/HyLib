@@ -19,6 +19,9 @@
   TYPE FIELD_NAME() const { return FIELD_NAME##_; } \
   void set_##FIELD_NAME(enum TYPE FIELD_NAME) { FIELD_NAME##_ = FIELD_NAME; } \
 
+#define DEFINE_CONST_PTR_GETTER(FIELD_NAME, TYPE) \
+  const TYPE* FIELD_NAME() const { return FIELD_NAME##_; } \
+
 #define DEFINE_ACCESSOR_RAW_PTR(FIELD_NAME, TYPE) \
   const TYPE* FIELD_NAME() const { return FIELD_NAME##_; } \
   TYPE* mutable_##FIELD_NAME() { return FIELD_NAME##_; } \
