@@ -20,6 +20,7 @@ int FileSize(StringPiece filename) {
 bool GetContent(StringPiece file_path, std::string* content) {
   int file_size = FileSize(file_path);
   if (file_size < 0) {
+    LogERROR("Invalid file %s, file size = %d", file_path.data(), file_size);
     return false;
   }
 
