@@ -13,6 +13,7 @@ OBJ_DIR=lib
 TEST_DIR=test
 
 OBJ = $(OBJ_DIR)/Base/Log.o \
+			$(OBJ_DIR)/Base/Lock.o \
       $(OBJ_DIR)/Base/Path.o \
       $(OBJ_DIR)/Base/Ptr.o \
       $(OBJ_DIR)/Base/Utils.o \
@@ -42,7 +43,8 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/Timer.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
 
-TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
+TESTOBJ = $(OBJ_DIR)/Base/Lock_test.o \
+					$(OBJ_DIR)/Base/Path_test.o \
           $(OBJ_DIR)/Base/Singleton_test.o \
           $(OBJ_DIR)/Base/Utils_test.o \
           $(OBJ_DIR)/IO/TextPrinter_test.o \
@@ -54,7 +56,8 @@ TESTOBJ = $(OBJ_DIR)/Base/Path_test.o \
           $(OBJ_DIR)/Utility/RingBuffer_test.o \
           $(OBJ_DIR)/Utility/Timer_test.o \
 
-TESTEXE = test/Base/Path_test.out \
+TESTEXE = test/Base/Lock_test.out \
+          test/Base/Path_test.out \
           test/Base/Singleton_test.out \
           test/Base/Utils_test.out \
           test/IO/TextPrinter_test.out \
