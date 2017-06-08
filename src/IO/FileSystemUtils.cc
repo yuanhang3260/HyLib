@@ -1,3 +1,6 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -53,6 +56,10 @@ bool DirectoryExists(StringPiece path) {
     (void)closedir(pDir);
   }
   return bExists;
+}
+
+bool CreateDir(StringPiece path) {
+  return CreateDir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
 bool CreateDir(StringPiece path, mode_t mode) {

@@ -28,6 +28,7 @@ std::string JoinPath(const T&... args) {
 bool FileExists(StringPiece file_path);
 bool DirectoryExists(StringPiece dir_path);
 bool CreateFile(StringPiece file_path);
+bool CreateDir(StringPiece path);
 bool CreateDir(StringPiece path, mode_t mode);
 int  ListDir(StringPiece path, std::vector<std::string>* result);
 
