@@ -113,6 +113,16 @@ int ListDir(StringPiece path, std::vector<std::string>* result) {
   return -1;
 }
 
+int64 FileSize(StringPiece path) {
+  struct stat stat_buf;
+  int re = stat(path.data(), &stat_buf);
+  if (re < 0) {
+    LogERROR("Failed to stat file %s", path.data());
+    return 0;
+  }
+
+  return stat_buf.st_size;
+}
 
 
 }  // namespace FileSystem

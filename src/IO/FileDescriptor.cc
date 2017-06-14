@@ -3,7 +3,8 @@
 #include <fcntl.h>
 #include <iostream>
 
-#include "FileDescriptor.h"
+#include "Base/Log.h"
+#include "IO/FileDescriptor.h"
 
 namespace IO {
 
@@ -31,7 +32,7 @@ FileDescriptor::FileDescriptor(const std::string& filename, MODE mode) {
       break;
   }
   if (fd_ < 0) {
-    fprintf(stderr, "ERROR: open file %s failed\n", filename.c_str());
+    LogERROR("ERROR: open file %s failed\n", filename.c_str());
     return;
   }
   closed_ = false;
