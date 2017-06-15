@@ -48,6 +48,7 @@ TESTOBJ = $(OBJ_DIR)/Base/Lock_test.o \
           $(OBJ_DIR)/Base/Singleton_test.o \
           $(OBJ_DIR)/Base/Utils_test.o \
           $(OBJ_DIR)/IO/TextPrinter_test.o \
+          $(OBJ_DIR)/IO/FileSystemUtils_test.o \
           $(OBJ_DIR)/Strings/StringBuilder_test.o \
           $(OBJ_DIR)/Strings/Split_test.o \
           $(OBJ_DIR)/Strings/Utils_test.o \
@@ -61,6 +62,7 @@ TESTEXE = test/Base/Lock_test.out \
           test/Base/Singleton_test.out \
           test/Base/Utils_test.out \
           test/IO/TextPrinter_test.out \
+          test/IO/FileSystemUtils_test.out \
           test/Strings/StringBuilder_test.out \
           test/Strings/Split_test.out \
           test/Strings/Utils_test.out \

@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 
+#include "Base/BaseTypes.h"
 #include "Strings/StringPiece.h"
 
 namespace Strings {
@@ -26,6 +27,12 @@ std::string Strip(const std::string& str, const std::string& match);
 
 bool StartWith(const std::string& str, const std::string& match);
 bool EndWith(const std::string& str, const std::string& match);
+
+std::string GetPrefix(const std::string& str, uint32 length);
+std::string GetSuffix(const std::string& str, uint32 length);
+
+std::string RemovePrefix(const std::string& str, uint32 length);
+std::string RemoveSuffix(const std::string& str, uint32 length);
 
 bool IsSingleWord(const std::string str);
 

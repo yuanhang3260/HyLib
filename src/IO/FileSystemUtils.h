@@ -26,13 +26,18 @@ std::string JoinPath(const T&... args) {
 }
 
 // FileSystem utilities.
-bool FileExists(StringPiece file_path);
 bool DirectoryExists(StringPiece dir_path);
-bool CreateFile(StringPiece file_path);
 bool CreateDir(StringPiece path);
+bool CreateDirRecursive(StringPiece path);
 bool CreateDir(StringPiece path, mode_t mode);
 int ListDir(StringPiece path, std::vector<std::string>* result);
+
+bool FileExists(StringPiece file_path);
+bool CreateFile(StringPiece file_path);
 int64 FileSize(StringPiece path);
+bool TruncateFile(StringPiece path, uint32 size);
+bool RenameFile(StringPiece path, StringPiece new_filename);
+std::string ParentDir(StringPiece path);
 
 // Remove file/dir.
 bool Remove(StringPiece file_path); 

@@ -11,6 +11,8 @@ namespace base {
 
 class SpinLock {
  public:
+  SpinLock() = default;
+
   void lock() {
     while (locked.test_and_set(std::memory_order_acquire)) {}
   }

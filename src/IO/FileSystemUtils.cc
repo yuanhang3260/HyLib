@@ -8,6 +8,8 @@
 #include <limits.h>
 
 #include "Base/Log.h"
+#include "Base/Path.h"
+#include "Strings/Split.h"
 #include "Strings/Utils.h"
 #include "FileSystemUtils.h"
 
@@ -69,6 +71,22 @@ bool CreateDir(StringPiece path, mode_t mode) {
   return mkdir(path.data(), mode) == 0;
 }
 
+bool CreateDirRecursive(StringPiece path) {
+  auto dirs = Strings::Split(path.ToString(), "/", Strings::SkipWhiteSpace());
+  std::string crt_dir_path;
+  if (path.starts_with("/")) {
+    crt_dir_path = "/";
+  }
+
+  for (const auto& dir : dirs) {
+    crt_dir_path = Strings::StrCat(crt_dir_path, dir, "/");
+    if (!CreateDir(crt_dir_path)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 bool CreateFile(StringPiece file_path) {
   FILE* pFile = fopen(file_path.data(), "w+");
   if (!pFile) {
@@ -84,7 +102,7 @@ bool Remove(StringPiece file_path) {
   if (!FileExists(file_path)) {
     return true;
   }
-  return remove(file_path.data());
+  return remove(file_path.data()) == 0;
 }
 
 int ListDir(StringPiece path, std::vector<std::string>* result) {
@@ -122,6 +140,53 @@ int64 FileSize(StringPiece path) {
   }
 
   return stat_buf.st_size;
+}
+
+bool TruncateFile(StringPiece path, uint32 size) {
+  return truncate(path.data(), size) == 0;
+}
+
+std::string ParentDir(StringPiece path) {
+  if (path == "/") {
+    return "";
+  }
+
+  if (!FileExists(path)) {
+    return "";
+  }
+  std::string abs_path = GetAbstractPath(path.ToString());
+  if (abs_path.empty()) {
+    return "";
+  }
+
+  // Is it possible?
+  if (Strings::EndWith(abs_path, "/")) {
+    abs_path = Strings::RemoveSuffix(abs_path, 1);
+  }
+
+  int last_slash = Strings::FindLastMatch(abs_path, "/");
+  std::string parent_dir = Strings::GetPrefix(abs_path, last_slash);
+  if (parent_dir.empty()) {
+    // File is in root dir, parent is still "/"
+    return "/";
+  }
+
+  return parent_dir;
+}
+
+bool RenameFile(StringPiece path, StringPiece new_filename) {
+  if (!FileExists(path)) {
+    LogERROR("File \"%s\" doesn't exist", path.data());
+    return false;
+  }
+
+  std::string parent_dir = ParentDir(path);
+  if (parent_dir.empty()) {
+    return false;
+  }
+
+  return rename(path.data(),
+                Path::JoinPath(parent_dir, new_filename).c_str()) == 0;
 }
 
 

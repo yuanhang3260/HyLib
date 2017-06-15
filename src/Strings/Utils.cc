@@ -115,6 +115,38 @@ bool EndWith(const std::string& str, const std::string& match) {
   return true;
 }
 
+std::string GetPrefix(const std::string& str, uint32 length) {
+  if (length >= str.length()) {
+    return str;
+  }
+
+  return str.substr(0, length);
+}
+
+std::string GetSuffix(const std::string& str, uint32 length) {
+  if (length >= str.length()) {
+    return str;
+  }
+
+  return str.substr(str.length()- length);
+}
+
+std::string RemovePrefix(const std::string& str, uint32 length) {
+  if (length >= str.length()) {
+    return "";
+  }
+
+  return str.substr(length);
+}
+
+std::string RemoveSuffix(const std::string& str, uint32 length) {
+  if (length >= str.length()) {
+    return "";
+  }
+
+  return str.substr(0, str.length()- length);
+}
+
 bool IsSingleWord(const std::string& str) {
   if (str.empty()) {
     return false;
