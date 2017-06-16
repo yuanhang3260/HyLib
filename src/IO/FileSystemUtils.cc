@@ -131,6 +131,25 @@ int ListDir(StringPiece path, std::vector<std::string>* result) {
   return -1;
 }
 
+bool CleanDir(StringPiece dir_path) {
+  std::vector<std::string> files;
+  if (ListDir(dir_path, &files) < 0) {
+    LogERROR("Failed to list dir %s", dir_path.data());
+    return false;
+  }
+
+  bool success = true;
+  for (const std::string& file : files) {
+    if (file == "." || file == "..") {
+      continue;
+    }
+    auto file_path = Path::JoinPath(dir_path, file);
+    success &= Remove(file_path);
+  }
+
+  return success;
+}
+
 int64 FileSize(StringPiece path) {
   struct stat stat_buf;
   int re = stat(path.data(), &stat_buf);

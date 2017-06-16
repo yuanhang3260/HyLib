@@ -31,6 +31,7 @@ bool CreateDir(StringPiece path);
 bool CreateDirRecursive(StringPiece path);
 bool CreateDir(StringPiece path, mode_t mode);
 int ListDir(StringPiece path, std::vector<std::string>* result);
+bool CleanDir(StringPiece path);
 
 bool FileExists(StringPiece file_path);
 bool CreateFile(StringPiece file_path);
