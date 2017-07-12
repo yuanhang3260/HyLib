@@ -27,6 +27,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Network/SocketBase.o \
       $(OBJ_DIR)/Network/SecuredSocket.o \
       $(OBJ_DIR)/Network/StunProber.o \
+      $(OBJ_DIR)/Strings/Convert.o \
       $(OBJ_DIR)/Strings/Split.o \
       $(OBJ_DIR)/Strings/StringBuilder.o \
       $(OBJ_DIR)/Strings/StringPiece.o \
