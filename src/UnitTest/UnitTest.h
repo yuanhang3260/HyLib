@@ -7,6 +7,9 @@
 #define AssertEqual(expect, actual, ...) \
   AssertEqual_impl(__FILE__, __LINE__, expect, actual, ## __VA_ARGS__)
 
+#define AssertFloatEqual(expect, actual, ...) \
+  AssertFloatEqual_impl(__FILE__, __LINE__, expect, actual, ## __VA_ARGS__)
+
 #define AssertNonEqual(expect, actual, ...) \
   AssertNonEqual_impl(__FILE__, __LINE__, expect, actual, ## __VA_ARGS__)
 
@@ -61,6 +64,18 @@ class UnitTest {
                         T1 expect, T2 actual, std::string error_msg="") {
     return AssertEqual_impl<T1>(file, line,
                                 expect, static_cast<T1>(actual), error_msg);
+  }
+
+  template <typename T1, typename T2>
+  void AssertFloatEqual_impl(const char* file, int line,
+                             T1 expect, T2 actual, std::string error_msg="") {
+    if (static_cast<double>(expect) - static_cast<double>(actual) > 1.0e-10) {
+      std::cerr << "[\033[1;31mAssertEqual\033[0m "
+                << file << "." << line << "]: ";
+      std::cerr << "Expect: " << expect << ", Actual: " << actual << std::endl;
+      std::cerr << "Error Message: " << error_msg << std::endl;
+      throw AssertError();
+    }
   }
 
   template <typename T>
