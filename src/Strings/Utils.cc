@@ -147,6 +147,30 @@ std::string RemoveSuffix(const std::string& str, uint32 length) {
   return str.substr(0, str.length()- length);
 }
 
+uint32 LongestCommonPrefix(const std::string& str1, const std::string& str2) {
+  uint32 len = std::min(str1.length(), str2.length());
+  uint32 i = 0;
+  for (; i < len; i++) {
+    if (str1.at(i) != str2.at(i)) {
+      return i;
+    }
+  }
+  return i;
+}
+
+uint32 LongestCommonSuffix(const std::string& str1, const std::string& str2) {
+  uint32 len = std::min(str1.length(), str2.length());
+  uint32 i = 0;
+  uint32 str1_pos = str1.length() - 1;
+  uint32 str2_pos = str2.length() - 1;
+  for (; i < len; i++) {
+    if (str1.at(str1_pos - i) != str2.at(str2_pos - i)) {
+      return i;
+    }
+  }
+  return i;
+}
+
 bool IsSingleWord(const std::string& str) {
   if (str.empty()) {
     return false;

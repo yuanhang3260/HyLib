@@ -34,6 +34,9 @@ std::string GetSuffix(const std::string& str, uint32 length);
 std::string RemovePrefix(const std::string& str, uint32 length);
 std::string RemoveSuffix(const std::string& str, uint32 length);
 
+uint32 LongestCommonPrefix(const std::string& str1, const std::string& str2);
+uint32 LongestCommonSuffix(const std::string& str1, const std::string& str2);
+
 bool IsSingleWord(const std::string str);
 
 std::string StrCatImpl(std::initializer_list<StringPiece> arg_list);
