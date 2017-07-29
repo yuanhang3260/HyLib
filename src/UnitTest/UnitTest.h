@@ -1,6 +1,8 @@
 #ifndef UNIT_TEST_
 #define UNIT_TEST_
 
+#include <math.h>
+
 #include <iostream>
 #include <exception>
 
@@ -69,7 +71,8 @@ class UnitTest {
   template <typename T1, typename T2>
   void AssertFloatEqual_impl(const char* file, int line,
                              T1 expect, T2 actual, std::string error_msg="") {
-    if (static_cast<double>(expect) - static_cast<double>(actual) > 1.0e-10) {
+    if (fabs(static_cast<double>(expect) -
+             static_cast<double>(actual)) > 1.0e-10) {
       std::cerr << "[\033[1;31mAssertEqual\033[0m "
                 << file << "." << line << "]: ";
       std::cerr << "Expect: " << expect << ", Actual: " << actual << std::endl;
