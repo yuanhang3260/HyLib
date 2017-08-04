@@ -51,7 +51,7 @@ class UnitTest {
 
   template <typename T>
   void AssertEqual_impl(const char* file, int line,
-                        T expect, T actual, std::string error_msg="") {
+                        T expect, T actual, const std::string& error_msg="") {
     if (expect != actual) {
       std::cerr << "[\033[1;31mAssertEqual\033[0m "
                 << file << "." << line << "]: ";
@@ -63,14 +63,15 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertEqual_impl(const char* file, int line,
-                        T1 expect, T2 actual, std::string error_msg="") {
+                        T1 expect, T2 actual, const std::string& error_msg="") {
     return AssertEqual_impl<T1>(file, line,
                                 expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T1, typename T2>
   void AssertFloatEqual_impl(const char* file, int line,
-                             T1 expect, T2 actual, std::string error_msg="") {
+                             T1 expect, T2 actual,
+                             const std::string& error_msg="") {
     if (fabs(static_cast<double>(expect) -
              static_cast<double>(actual)) > 1.0e-10) {
       std::cerr << "[\033[1;31mAssertEqual\033[0m "
@@ -83,7 +84,7 @@ class UnitTest {
 
   template <typename T>
   void AssertNonEqual_impl(const char* file, int line,
-                           T expect, T actual, std::string error_msg="") {
+                           T expect, T actual, const std::string& error_msg="") {
     if (expect == actual) {
       std::cerr << "[\033[1;31mAssertNonEqual\033[0m "
                 << file << "." << line << "]: Both = " << actual;
@@ -94,13 +95,15 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertNonEqual_impl(const char* file, int line,
-                           T1 expect, T2 actual, std::string error_msg="") {
-    return AssertNonEqual_impl<T1>(expect, static_cast<T1>(actual), error_msg);
+                           T1 expect, T2 actual,
+                           const std::string& error_msg="") {
+    return AssertNonEqual_impl<T1>(file, line,
+                                   expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T>
   void AssertGreater_impl(const char* file, int line,
-                          T expect, T actual, std::string error_msg="") {
+                          T expect, T actual, const std::string& error_msg="") {
     if (expect <= actual) {
       std::cerr << "[\033[1;31mAssertGreater\033[0m "
                 << file << "." << line << "]: "
@@ -112,13 +115,15 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertGreater_impl(const char* file, int line,
-                          T1 expect, T2 actual, std::string error_msg="") {
-    return AssertGreater_impl<T1>(expect, static_cast<T1>(actual), error_msg);
+                          T1 expect, T2 actual,
+                          const std::string& error_msg="") {
+    return AssertGreater_impl<T1>(file, line,
+                                  expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T>
   void AssertLess_impl(const char* file, int line,
-                       T expect, T actual, std::string error_msg="") {
+                       T expect, T actual, const std::string& error_msg="") {
     if (expect >= actual) {
       std::cerr << "[\033[1;31mAssertLess\033[0m "
                 << file << "." << line << "]: "
@@ -130,13 +135,15 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertLess_impl(const char* file, int line,
-                       T1 expect, T2 actual, std::string error_msg="") {
-    return AssertLess_impl<T1>(expect, static_cast<T1>(actual), error_msg);
+                       T1 expect, T2 actual, const std::string& error_msg="") {
+    return AssertLess_impl<T1>(file, line,
+                               expect, static_cast<T1>(actual), error_msg);
   }
 
   template <typename T>
   void AssertGreaterEqual_impl(const char* file, int line,
-                               T expect, T actual, std::string error_msg="") {
+                               T expect, T actual,
+                               const std::string& error_msg="") {
     if (expect < actual) {
       std::cerr << "[\033[1;31mAssertGreaterEqual\033[0m "
                 << file << "." << line << "]: "
@@ -148,14 +155,17 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertGreaterEqual_impl(const char* file, int line,
-                               T1 expect, T2 actual, std::string error_msg="") {
-    return AssertGreaterEqual_impl<T1>(expect, static_cast<T1>(actual),
+                               T1 expect, T2 actual,
+                               const std::string& error_msg="") {
+    return AssertGreaterEqual_impl<T1>(file, line,
+                                       expect, static_cast<T1>(actual),
                                        error_msg);
   }
 
   template <typename T>
   void AssertLessEqual_impl(const char* file, int line,
-                            T expect, T actual, std::string error_msg="") {
+                            T expect, T actual,
+                            const std::string& error_msg="") {
     if (expect > actual) {
       std::cerr << "[\033[1;31mAssertLessEqual\033[0m "
                 << file << "." << line << "]: "
@@ -167,12 +177,14 @@ class UnitTest {
 
   template <typename T1, typename T2>
   void AssertLessEqual_impl(const char* file, int line,
-                            T1 expect, T2 actual, std::string error_msg="") {
-    return AssertLessEqual_impl<T1>(expect, static_cast<T1>(actual), error_msg);
+                            T1 expect, T2 actual,
+                            const std::string& error_msg="") {
+    return AssertLessEqual_impl<T1>(file, line,
+                                    expect, static_cast<T1>(actual), error_msg);
   }
 
   void AssertTrue_impl(const char* file, int line,
-                       bool condition, std::string error_msg="") {
+                       bool condition, const std::string& error_msg="") {
     if (!condition) {
       std::cerr << "[\033[1;31mAssertTrue\033[0m "
                 << file << "." << line << "]: Actual False" << std::endl;
@@ -182,7 +194,7 @@ class UnitTest {
   }
 
   void AssertFalse_impl(const char* file, int line,
-                        bool condition, std::string error_msg="") {
+                        bool condition, const std::string& error_msg="") {
     if (condition) {
       std::cerr << "[\033[1;31mAssertFalse\033[0m "
                 << file << "." << line << "]: Actual True" << std::endl;
