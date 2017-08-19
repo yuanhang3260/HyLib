@@ -39,6 +39,8 @@ int64 FileSize(StringPiece path);
 bool TruncateFile(StringPiece path, uint32 size);
 bool RenameFile(StringPiece path, StringPiece new_filename);
 std::string ParentDir(StringPiece path);
+// Given full path, get file name.
+std::string FileName(StringPiece path);
 
 // Remove file/dir.
 bool Remove(StringPiece file_path); 

@@ -22,6 +22,7 @@ class FileDescriptor : public FileDescriptorInterface {
   FileDescriptor(const std::string& filename, MODE mode);
   ~FileDescriptor() override {}
 
+  int fd() const { return fd_; }
   int Read(void* buffer, int nbytes) override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;

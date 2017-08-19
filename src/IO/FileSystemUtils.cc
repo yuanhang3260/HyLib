@@ -208,5 +208,15 @@ bool RenameFile(StringPiece path, StringPiece new_filename) {
                 Path::JoinPath(parent_dir, new_filename).c_str()) == 0;
 }
 
+std::string FileName(StringPiece path) {
+  std::string path_str = path.as_string();
+  auto pos = path_str.find_last_of("/");
+  if (pos == std::string::npos) {
+    return path_str;
+  } else {
+    return path_str.substr(pos);
+  }
+}
+
 
 }  // namespace FileSystem

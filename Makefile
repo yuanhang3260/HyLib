@@ -5,7 +5,7 @@
 #
 CC=g++ -std=c++11
 CFLAGS=-Wall -Werror -O2 -g
-LFLAGS=-pthread
+LFLAGS=-pthread -luuid
 IFLAGS=-Isrc/
 
 SRC_DIR=src
@@ -43,6 +43,7 @@ OBJ = $(OBJ_DIR)/Base/Log.o \
       $(OBJ_DIR)/Utility/StopWatch.o \
       $(OBJ_DIR)/Utility/Timer.o \
       $(OBJ_DIR)/Utility/ThreadPool.o \
+      $(OBJ_DIR)/Utility/Uuid.o \
 
 TESTOBJ = $(OBJ_DIR)/Base/Lock_test.o \
 					$(OBJ_DIR)/Base/Path_test.o \
