@@ -1,6 +1,7 @@
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#include <unistd.h>
 #include <iostream>
 
 #include "Base/Log.h"
@@ -62,6 +63,13 @@ int FileDescriptor::Write(const void* buf, int nbytes) const {
     return write(fd_, buf, nbytes);
   }
   return -1;
+}
+
+int32 FileDescriptor::Seek(int32 offset) {
+  if (fd_ < 0) {
+    return -1;
+  }
+  return lseek(fd_, offset, SEEK_SET);
 }
 
 }

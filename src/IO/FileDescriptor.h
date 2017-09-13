@@ -6,7 +6,8 @@
 #include <unistd.h>
 #include <memory>
 
-#include "FileDescriptorInterface.h"
+#include "Base/BaseTypes.h"
+#include "IO/FileDescriptorInterface.h"
 
 namespace IO {
 
@@ -26,6 +27,7 @@ class FileDescriptor : public FileDescriptorInterface {
   int Read(void* buffer, int nbytes) override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;
+  int Seek(int32 offset);
  
  public:
   int fd_;
