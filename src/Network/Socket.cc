@@ -32,7 +32,7 @@ int Socket::Close() {
   return -1;
 }
 
-int Socket::Read(void* buffer, int nbytes) {
+int Socket::Read(void* buffer, int nbytes) const {
   if (!closed_ && fd_ > 0) {
     return read(fd_, buffer, nbytes);
   }

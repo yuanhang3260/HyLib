@@ -24,7 +24,7 @@ class FileDescriptor : public FileDescriptorInterface {
   ~FileDescriptor() override {}
 
   int fd() const { return fd_; }
-  int Read(void* buffer, int nbytes) override;
+  int Read(void* buffer, int nbytes) const override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;
   int Seek(int32 offset);

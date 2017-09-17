@@ -51,7 +51,7 @@ int FileDescriptor::Close() {
   return -1;
 }
 
-int FileDescriptor::Read(void* buffer, int nbytes) {
+int FileDescriptor::Read(void* buffer, int nbytes) const {
   if (!closed_ && fd_ > 0) {
     return read(fd_, buffer, nbytes);
   }

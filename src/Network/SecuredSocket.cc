@@ -71,7 +71,7 @@ int SecuredSocket::Close() {
   return -1;
 }
 
-int SecuredSocket::Read(void* buffer, int nbytes) {
+int SecuredSocket::Read(void* buffer, int nbytes) const {
   if (ssl_connection_established_) {
     int nread = BIO_read(bio, buffer, nbytes);
     return nread;

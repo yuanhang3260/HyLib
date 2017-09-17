@@ -4,7 +4,7 @@ namespace net {
 
 SocketBase::~SocketBase() {}
 
-int SocketBase::Recv(void* buffer, int nbytes) {
+int SocketBase::Recv(void* buffer, int nbytes) const {
   return Read(buffer, nbytes);
 }
 

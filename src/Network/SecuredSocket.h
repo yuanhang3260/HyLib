@@ -20,7 +20,7 @@ class SecuredSocket : public SocketBase {
   ~SecuredSocket() { Close(); }
 
   int fd() const override;
-  int Read(void* buffer, int nbytes) override;
+  int Read(void* buffer, int nbytes) const override;
   int Write(const void* buf, int nbytes) const override;
   int Close() override;
 

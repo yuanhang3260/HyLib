@@ -17,7 +17,7 @@ class Socket : public SocketBase {
   virtual ~Socket();
 
   virtual int fd() const { return fd_; }
-  virtual int Read(void* buffer, int nbytes) override;
+  virtual int Read(void* buffer, int nbytes) const override;
   virtual int Write(const void* buf, int nbytes) const override;
   virtual int Close() override;
   void SetNonBlock();

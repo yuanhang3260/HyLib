@@ -19,7 +19,7 @@ class FileDescriptorInterface {
 
   bool closed() { return closed_; }
 
-  virtual int Read(void* buffer, int nbytes) = 0;
+  virtual int Read(void* buffer, int nbytes) const = 0;
   virtual int Write(const void* buf, int nbytes) const = 0;
   virtual int Close();
 
