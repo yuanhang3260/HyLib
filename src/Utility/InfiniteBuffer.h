@@ -24,7 +24,7 @@ class InfiniteBuffer : public BufferInterface {
   void Clear() override;
 
   bool full() const override { return false; }
-  uint32 free_space() { return ULONG_MAX; }
+  uint32 free_space() { return UINT_MAX; }
 
  private:
   void PrintBuffer() const;
