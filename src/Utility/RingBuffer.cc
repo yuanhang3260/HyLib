@@ -85,11 +85,6 @@ uint32 RingBuffer::Read(byte* buf, uint32 size) {
 }
 
 void RingBuffer::Clear() {
-  if (buffer_) {
-    delete[] buffer_;
-  }
-
-  buffer_ = nullptr;
   size_ = 0;
   start_ = 0;
   end_ = 0;

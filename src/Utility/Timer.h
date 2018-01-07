@@ -13,11 +13,11 @@
 
 namespace Utility {
 
-// This a timer which triggers a user-specified event on timeout. This class is
+// Timer triggers a user-specified event on a specified timeout. This class is
 // thread-safe.
 //
-// By default, timer is not set in repeating mode. In repeating mode, the timer
-// automatically restart after callback is done.
+// By default, timer is not set repeating. At repeating mode, it automatically
+// restarts after callback is run.
 class Timer {
  public:
   enum State {
@@ -34,9 +34,9 @@ class Timer {
   // STOPPED --------------------> STARTED <-------------------- PAUSED -->
   //    ^                           |   |                           ^      |
   //    |                           |   |                           |      |
-  //    |                           |   |                           |      |
-  //     <-------- TO_STOP <--------     --------> TO_PAUSE ------->       |
-  //        wake      ^       Stop()      Pause()             wake         |
+  //    |           Stop()          |   |          Pause()          |      |
+  //     <--------------------------     -------------------------->       |
+  //                  ^                                                    |
   //                  |                                                    |
   //                  |                                                    |
   //                   <---------------- <---------------- <---------------

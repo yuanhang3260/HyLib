@@ -19,6 +19,7 @@ class RingBuffer : public BufferInterface {
   // Read data from buffer. Return actual size read.
   uint32 Read(byte* buf, uint32 size) override;
 
+  // Clear all data.
   void Clear() override;
 
   uint32 free_space() { return capacity_ - size_; }
